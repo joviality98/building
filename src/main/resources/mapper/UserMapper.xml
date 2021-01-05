@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.building.entity.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id property="userId" column="USERID"/>
+
+        <result property="userName" column="USERNAME"/>
+
+        <result property="account" column="ACCOUNT"/>
+
+        <result property="password" column="PASSWORD"/>
+
+        <result property="sex" column="SEX"/>
+
+        <result property="deptId" column="DEPTID"/>
+
+        <result property="locked" column="LOCKED"/>
+
+        <result property="remark" column="REMARK"/>
+
+        <result property="userType" column="USERTYPE"/>
+
+        <result property="enabled" column="ENABLED"/>
+
+        <result property="email" column="email"/>
+
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <select id="verify" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where USERNAME = #{userName}
+          and PASSWORD = #{password}
+    </select>
+
+    <select id="show" resultMap="BaseResultMap">
+        select *
+        from user </select>
+
+    <insert id="add" parameterType="com.building.entity.User">
+        insert into user(USERNAME, ACCOUNT, PASSWORD, SEX, DEPTID,
+                         LOCKED, REMARK, USERTYPE, ENABLED, email,
+                         phone)
+        values (#{userName}, #{account}, #{password}, #{sex},
+                #{deptId}, #{locked}, #{remark}, #{userType},
+                #{enabled}, #{email}, #{phone}) </insert>
+
+    <insert id="delete">
+        delete
+        from user
+        where USERID = #{userId} </insert>
+
+    <update id="update">
+        update user
+        <set>
+
+            <if test="userName != null and userName != ''">USERNAME = #{userName},</if>
+
+            <if test="account != null and account !=''">ACCOUNT = #{account},</if>
+
+            <if test="password != null and password !=''">PASSWORD = #{password},</if>
+
+            <if test="sex != null and sex != ''">SEX = #{sex},</if>
+
+            <if test="deptId != null and deptid != ''">DEPTID = #{deptid},</if>
+
+            <if test="locked != null and locked != ''">LOCKED = #{locked},</if>
+
+            <if test="remark != null and remark != ''">REMARK = #{remark},</if>
+
+            <if test="userType != null and userType != ''">USERTYPE = #{userType},</if>
+
+            <if test="enabled != null and enabled != ''">ENABLED = #{enabled},</if>
+
+            <if test="email != null and email != ''">email = #{email},</if>
+
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+
+        </set>
+        where USERID = #{userId}
+    </update>
+
+    <select id="search" resultMap="BaseResultMap">
+        select *
+        from user
+        where USERID = #{userId}
+           or USERNAME = #{userName}
+           or USERTYPE = #{userType} </select>
+
+    <select id="searchStaff" resultMap="BaseResultMap">
+        select *
+        from user
+        where USERTYPE = #{userType}
+          and ENABLED = #{enabled} </select>
+
+    <sql id="UserFindCriteria">
+        <where>
+
+            <if test="userName != null and userName !=''">USERNAME = #{userName}</if>
+
+            <if test="account != null and account !=''">ACCOUNT = #{account}</if>
+
+            <if test="password != null and password !=''">PASSWORD = #{password}</if>
+
+            <if test="sex != null and sex != ''">SEX = #{sex}</if>
+
+            <if test="deptId != null and deptid != ''">DEPTID = #{deptid}</if>
+
+            <if test="locked != null and locked != ''">LOCKED = #{locked}</if>
+
+            <if test="remark != null and remark != ''">REMARK = #{remark}</if>
+
+            <if test="userType != null and userType != ''">USERTYPE = #{userType}</if>
+
+            <if test="enabled != null and enabled != ''">ENABLED = #{enabled}</if>
+
+            <if test="email != null and email != ''">email = #{email}</if>
+
+            <if test="phone != null and phone != ''">phone = #{phone}</if>
+
+        </where>
+
+    </sql>
+</mapper>

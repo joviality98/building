@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.OrderTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.building.entity.OrderTask" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="flow_id" property="flowId" jdbcType="CHAR" />
+    <result column="work_id" property="workId" jdbcType="CHAR" />
+    <result column="flow_name" property="flowName" jdbcType="VARCHAR" />
+    <result column="deal_id" property="dealId" jdbcType="CHAR" />
+    <result column="part_id" property="partId" jdbcType="CHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="result_code" property="resultCode" jdbcType="INTEGER" />
+    <result column="result_content" property="resultContent" jdbcType="VARCHAR" />
+    <result column="result_img" property="resultImg" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

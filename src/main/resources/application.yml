@@ -1,0 +1,54 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/building?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: \
+  # ��������
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1538295090@qq.com
+    password: wvhisywysoaqjigg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+server:
+  port: 8081
+order:
+  img:
+    dir: /opt/Image
+classpath:
+  /META-INFO/resources/,\
+  /resources/,\
+  /static/,\
+  /public/,\
+file: ${order.img.dir}
+# mybatis ����
+mybatis:
+  type-aliases-package: com.build.entity
+  mapper-locations: classpath:mapper/*.xml
+# ͨ�� mapper ����
+mapper:
+  mappers: com.building.util.MyMapper
+  not-empty: false
+  identity: MYSQL
+# ��ҳ�������
+pagehelper:
+  helper-dialect: mysql
+  support-methods-arguments: true
+  params: count = countSql
+

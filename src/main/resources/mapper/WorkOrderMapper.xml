@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.WorkOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.building.entity.WorkOrder" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="work_id" property="workId" jdbcType="CHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="creater" property="creater" jdbcType="CHAR" />
+    <result column="deal_id" property="dealId" jdbcType="CHAR" />
+    <result column="deal_tel" property="dealTel" jdbcType="CHAR" />
+    <result column="work_type" property="workType" jdbcType="VARCHAR" />
+    <result column="work_status" property="workStatus" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="notice_type" property="noticeType" jdbcType="VARCHAR" />
+    <result column="equipment_id" property="equipmentId" jdbcType="CHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="getOrderCount" resultType="java.lang.Integer">
+    select count(*) from work_order
+  </select>
+
+</mapper>
