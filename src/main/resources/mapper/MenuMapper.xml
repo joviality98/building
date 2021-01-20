@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.building.entity.Menu" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="component" property="component" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="cache" property="cache" jdbcType="BIGINT" />
+    <result column="hidden" property="hidden" jdbcType="BIGINT" />
+    <result column="component_name" property="componentName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="getMenu" resultType="com.building.entity.vo.MenuVo">
+    SELECT
+      b.id,
+      a.name parentName,
+      b.parent_id as parentId,
+      b.name,
+      b.sort,
+      b.component
+    FROM
+      menu a
+        RIGHT JOIN
+      menu b ON b.parent_id = a.id
+    ORDER BY b.sort ASC
+  </select>
+
+  <select id="getMenuByUsername" resultMap="BaseResultMap">
+    select distinct
+      a.id,
+      a.name,
+      a.parent_id,
+      a.component,
+      a.sort,
+      a.icon
+    from menu a,
+         `role` b,
+         role_menu c,
+         `user` d,
+         user_role e
+    where ( a.id = c.menu_id or c.menu_id='*')
+      and b.role_id = c.role_id
+      and d.USERID = e.user_id
+      and e.role_id = c.role_id
+      and d.USERNAME=#{username}
+    order by a.sort asc
+  </select>
+</mapper>

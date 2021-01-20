@@ -8,4 +8,43 @@
     <id column="role_id" property="roleId" jdbcType="CHAR" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
   </resultMap>
+  <select id="getRolesByUserName" resultMap="BaseResultMap">
+    SELECT b.role_id,
+           b.role_name
+    from `user` a,
+         `role` b,
+         user_role c
+    where a.USERID = c.user_id
+      and b.role_id = c.role_id
+      and a.USERNAME = #{username}
+  </select>
+
+  <select id="getRoleAndMenuList" resultType="com.building.entity.vo.RolePermissionVo">
+      select a.id,
+             a.name,
+             a.parent_id as pid,
+             b.role_id as roleId
+      from menu a,
+           `role` b,
+           role_menu c
+      where (a.id = c.menu_id or c.menu_id='*')
+        and b.role_id = c.role_id
+        and b.role_id = #{roleId}
+  </select>
+
+    <select id="getRoleAndUserList" resultType="com.building.entity.vo.RolePermissionVo">
+        select a.USERID as id,
+               a.USERNAME as name,
+               b.role_id as roleId
+        from `user` a,
+             `role` b,
+             user_role c
+        where a.USERID = c.user_id
+          and b.role_id = c.role_id
+          and b.role_id = #{roleId}
+    </select>
+
+  <select id="saveRoleUser">
+      insert into user_role (role_id,user_id) values (#{roleId},#{userId})
+  </select>
 </mapper>

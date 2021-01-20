@@ -10,7 +10,7 @@ import java.util.Map;
 public interface UserMapper {
 
     //登录
-    public int verify(String userName,String password);
+    public User verify(String userName);
 
     //显示
     public List<User> show(Map<String, Object> paramMap);

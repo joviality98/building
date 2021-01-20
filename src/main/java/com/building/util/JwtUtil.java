@@ -6,6 +6,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -16,6 +18,7 @@ import java.util.UUID;
 /**
  * jwt工具类
  */
+@Component
 public class JwtUtil {
 
     //秘钥
@@ -54,8 +57,17 @@ public class JwtUtil {
 
     }
 
-    //2.验证token
-    public Claims verify(String token){
+    //生成令牌
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>(2);
+        claims.put(Claims.SUBJECT, userDetails.getUsername());
+        claims.put(Claims.ISSUED_AT, new Date());
+        Date expirationDate = new Date(System.currentTimeMillis()+ jwt_expr);
+        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, jwt_secret).compact();
+    }
+
+    //2.验证token---从token中获取数据声明
+    public static Claims verify(String token){
         try {
             if(StringUtils.isEmpty(token)){
                 return null;
@@ -67,8 +79,20 @@ public class JwtUtil {
         }
     }
 
-    //3.获取用户信息
-    public User getUser(String token){
+    //判断token是否过期
+    public Boolean isTokenExpired(String token) throws  Exception{
+        try {
+            Claims claims = verify(token);
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            new Throwable(e);
+        }
+        return true;
+    }
+
+    //3.从token中获取用户信息
+    public static User getUser(String token){
         try {
             if(StringUtils.isEmpty(token)){
                 throw  new MyException("token不能为空");
@@ -87,5 +111,10 @@ public class JwtUtil {
         }
     }
 
+    public Boolean validateToken(String token, UserDetails userDetails) throws Exception {
+        User user = (User) userDetails;
+        String username = getUser(token).getUserName();
+        return (username.equals(user.getUserName()) && !isTokenExpired(token));
+    }
 
 }

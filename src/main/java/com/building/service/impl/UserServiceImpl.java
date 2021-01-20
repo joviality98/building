@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public boolean verify(String userName, String password) {
-        return userMapper.verify(userName,password)>0;
+    public User verify(String userName) {
+        return userMapper.verify(userName);
     }
 
     @Override

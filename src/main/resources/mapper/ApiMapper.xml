@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.ApiMapper" >
+  <resultMap id="BaseResultMap" type="com.building.entity.Api" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getApiByUsername" resultMap="BaseResultMap">
+    select DISTINCT
+    a.url,
+    a.method
+    from api a,
+    `role` b,
+    role_api c,
+    `user` d,
+    user_role e
+    where a.id = c.api_id
+    and a.url != 'none'
+    and b.role_id = c.role_id
+    and d.USERID = e.user_id
+    and e.role_id = c.role_id
+    and d.USERNAME=#{username}
+  </select>
+
+  <select id="getAllApi" resultType="com.building.entity.vo.ApiVo">
+    SELECT
+      b.id,
+      a.name parentName,
+      b.pid,
+      b.name,
+      b.sort,
+      b.url,
+      b.description
+    FROM
+      api a
+        RIGHT JOIN
+      api b ON b.pid = a.id
+    ORDER BY b.sort ASC
+  </select>
+</mapper>

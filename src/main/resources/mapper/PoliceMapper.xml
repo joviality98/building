@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.PoliceMapper">
+
+    <resultMap type="com.building.entity.Police" id="Police">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="detail" column="detail"/>
+        <result property="time" column="time"/>
+        <result property="deal" column="deal"/>
+    </resultMap>
+
+    <select id="show" resultMap="Police">
+        select * from alarm
+    </select>
+
+    <update id="editDeal">
+        update alarm
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="type != null and type !=''">type = #{type},</if>
+            <if test="detail != null and detail !=''">detail = #{detail},</if>
+            <if test="time != null and time != ''">time = #{time},</if>
+            <if test="deal != null and deal != ''">deal = #{deal},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="add" parameterType="com.building.entity.Police">
+        insert into alarm(name,type,detail,time,deal)
+        values(#{name},#{type},#{detail},#{time},#{deal})
+    </insert>
+
+</mapper>

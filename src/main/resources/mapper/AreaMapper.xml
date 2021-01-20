@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.AreaMapper">
+
+    <resultMap type="com.building.entity.Area" id="Area">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="parentId" column="parentid"/>
+        <result property="leaf" column="leaf"/>
+        <result property="position" column="position"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <select id="findAreaTree" resultMap="Area">
+        select id, name AS label, parentid
+        from area
+    </select>
+
+</mapper>

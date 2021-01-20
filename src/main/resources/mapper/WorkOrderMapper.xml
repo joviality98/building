@@ -23,4 +23,156 @@
     select count(*) from work_order
   </select>
 
+  <select id="getTotalByYear" resultType="com.building.entity.vo.TotalVo">
+    SELECT
+      DATE_FORMAT(a.created_time,'%Y') as year,
+      DATE_FORMAT(a.created_time,'%m') as month,
+	  COUNT(*) as total
+    FROM
+      work_order a
+    WHERE
+      DATE_FORMAT(a.created_time,'%Y') = #{year}
+    GROUP BY
+      DATE_FORMAT(a.created_time,'%m')
+  </select>
+
+  <select id="getTotalByYearMonth" resultType="com.building.entity.vo.TotalVo">
+    SELECT
+      DATE_FORMAT(a.created_time,'%Y') as year,
+      DATE_FORMAT(a.created_time,'%m') as month,
+      DATE_FORMAT(a.created_time,'%d') as day,
+	  COUNT(*) as total
+    FROM
+      work_order a
+    WHERE
+      DATE_FORMAT(a.created_time,'%Y') = #{year}
+      and date_format(a.created_time,'%m') = #{month}
+    GROUP BY
+      DATE_FORMAT(a.created_time,'%d')
+  </select>
+
+  <select id="getTotalByUser" resultType="com.building.entity.vo.TotalVo">
+    SELECT
+      DATE_FORMAT(a.created_time,'%Y') as year,
+      DATE_FORMAT(a.created_time,'%m') as month,
+	  a.work_status as workStatus,
+	  a.work_type as workType,
+	  COUNT(*) as total,
+      b.USERNAME as userName
+    FROM
+      work_order a, `user` b
+    WHERE
+      a.deal_id = b.USERID
+      and b.USERID = #{id}
+    GROUP BY
+      DATE_FORMAT(a.created_time,'%m'),workStatus,workType
+  </select>
+
+  <select id="getTotalByUserYear" resultType="com.building.entity.vo.TotalVo">
+    SELECT
+      DATE_FORMAT(a.created_time,'%Y') as year,
+      DATE_FORMAT(a.created_time,'%m') as month,
+      a.work_status as workStatus,
+      a.work_type as workType,
+	  COUNT(*) as total,
+      b.USERNAME as userName
+    FROM
+      work_order a, `user` b
+    WHERE
+        (DATE_FORMAT(a.created_time,'%Y') = #{year} or #{year} is null )
+      and a.deal_id = b.USERID
+      and b.USERID = #{id}
+    GROUP BY
+      DATE_FORMAT(a.created_time,'%m'),workStatus,workType
+  </select>
+
+  <select id="getTotalByUserYearMonth" resultType="com.building.entity.vo.TotalVo">
+    SELECT
+      DATE_FORMAT(a.created_time,'%Y') as year,
+      DATE_FORMAT(a.created_time,'%m') as month,
+      DATE_FORMAT(a.created_time,'%d') as day,
+      a.work_status as workStatus,
+	  COUNT(*) as total,
+      b.USERNAME as userName
+    FROM
+      work_order a,`user` b
+    WHERE
+      DATE_FORMAT(a.created_time,'%Y') = #{year}
+      and date_format(a.created_time,'%m') = #{month}
+      and a.deal_id = b.USERID
+      and b.USERID = #{id}
+    GROUP BY
+      DATE_FORMAT(a.created_time,'%d'),workStatus
+  </select>
+
+  <select id="getTotalByWeek" resultType="com.building.entity.vo.TotalVo">
+    SELECT
+      DATE_FORMAT(a.created_time,'%Y') as year,
+      DATE_FORMAT(a.created_time,'%m') as month,
+      DATE_FORMAT(a.created_time,'%d') as day,
+      WEEKDAY(a.created_time) as weekDay,
+	  COUNT(*) as total
+    from work_order a
+    where
+      yearweek(date_format(created_time,'%Y-%m-%d'),1) = yearweek(date_format(#{week},'%Y-%m-%d'),1)
+    group by DATE_FORMAT(a.created_time,'%d')
+  </select>
+
+  <select id="filterByDay" resultMap="BaseResultMap">
+    select * from work_order where TO_DAYS(created_time) = TO_DAYS(#{day})
+  </select>
+  <select id="countByDay" resultType="java.lang.Integer">
+    select count(*) from work_order where TO_DAYS(created_time) = TO_DAYS(NOW())
+  </select>
+  <select id="filterByWeek" resultMap="BaseResultMap">
+    SELECT * FROM work_order WHERE YEARWEEK(date_format(created_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+  </select>
+  <select id="countByWeek" resultType="java.lang.Integer">
+    SELECT count(*) FROM work_order WHERE YEARWEEK(date_format(created_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+  </select>
+  <select id="filterByMonth" resultMap="BaseResultMap">
+    SELECT * FROM work_order WHERE DATE_FORMAT(created_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+  </select>
+  <select id="countByMonth" resultType="java.lang.Integer">
+    SELECT count(*) FROM work_order WHERE DATE_FORMAT(created_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+  </select>
+
+  <select id="filterByYear" resultMap="BaseResultMap">
+    select * from work_order where YEAR(created_time)=YEAR(NOW())
+  </select>
+  <select id="countByYear" resultType="java.lang.Integer">
+    select count(*) from work_order where YEAR(created_time)=YEAR(NOW())
+  </select>
+
+  <select id="filterByLastYear" resultMap="BaseResultMap">
+    select * from work_order where year(created_time)=year(date_sub(now(),interval 1 year))
+  </select>
+  <select id="countByLastYear" resultType="java.lang.Integer">
+    select count(*) from work_order where year(created_time)=year(date_sub(now(),interval 1 year))
+  </select>
+
+  <select id="filterByLastWeek" resultMap="BaseResultMap">
+    SELECT * FROM work_order WHERE YEARWEEK(date_format(created_time,'%Y-%m-%d')) =YEARWEEK(now())-1;
+  </select>
+
+  <select id="filterByLastMonth" resultMap="BaseResultMap">
+    select * from work_order where date_format(created_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m')
+  </select>
+
+  <select id="filterByYearMonth" resultMap="BaseResultMap">
+    select * from work_order where date_format(created_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 year),'%Y-%m')
+  </select>
+
+  <select id="countByLastWeek" resultType="java.lang.Integer">
+    select count(*) from work_order where YEARWEEK(date_format(created_time,'%Y-%m-%d')) =YEARWEEK(now())-1;
+  </select>
+
+  <select id="countByLastMonth" resultType="java.lang.Integer">
+    select count(*) from work_order where date_format(created_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m')
+  </select>
+
+  <select id="countByYearMonth" resultType="java.lang.Integer">
+    select count(*) from work_order where date_format(created_time,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 year),'%Y-%m')
+  </select>
+
 </mapper>

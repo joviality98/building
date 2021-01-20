@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.VariantMapper">
+
+    <resultMap type="com.building.entity.Variant" id="Variant">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="collectorId" column="collector_id"/>
+        <result property="meterId" column="meter_id"/>
+    </resultMap>
+
+    <select id="find" resultMap="Variant" >
+        select id, name AS label, addr, unit
+        from variant where collector_id = #{collectorId} and meter_id = #{meterId}
+    </select>
+
+    <select id="findById" resultMap="Variant" >
+        select * from variant where id = #{id}
+    </select>
+
+</mapper>
