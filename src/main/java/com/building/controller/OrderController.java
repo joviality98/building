@@ -1,11 +1,11 @@
 package com.building.controller;
 
 import com.building.common.lang.Result;
-import com.building.entity.OrderHistory;
 import com.building.entity.User;
 import com.building.entity.WorkOrder;
-import com.building.entity.vo.HistoryVo;
 import com.building.entity.vo.OrderVO;
+import com.building.entity.vo.TotalVo;
+import com.building.log.MyLog;
 import com.building.service.EmailService;
 import com.building.service.OrderHistoryService;
 import com.building.service.UserService;
@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,12 +65,14 @@ public class OrderController {
         return Result.success(map);
     }
 
+    @MyLog("根据ID搜索工单")
     @GetMapping("/getOrderById")
     public Result detail(String id) {
         WorkOrder order = orderService.searchOrderById(id);
         return Result.success(order);
     }
 
+    @MyLog("添加工单")
     @PostMapping("/add")
     public Result add(@Validated @RequestBody WorkOrder order) {
         if(orderService.searchOrderById(order.getWorkId()) != null){
@@ -83,21 +86,23 @@ public class OrderController {
 
         order.setCreatedTime(new Date());
         orderService.saveOrder(order);
-        return Result.success("添加成功");
+        return Result.success(null);
     }
 
+    @MyLog("编辑工单")
     @PostMapping("/edit")
     public Result edit(@Validated @RequestBody WorkOrder order) {
 
         orderService.updateOrder(order);
 
-        return Result.success("更新成功");
+        return Result.success(null);
     }
 
+    @MyLog("删除工单")
     @PostMapping("/delete")
     public Result delete(@RequestBody HashMap<String, String> map) {
         orderService.deleteOrder(map.get("id"));
-        return Result.success("删除成功");
+        return Result.success(null);
     }
 
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
@@ -139,7 +144,7 @@ public class OrderController {
 //        if(!"OK".equals(emailResult)){
 //            Result.fail("邮件发送失败");
 //        }
-        return Result.success("已派发工单");
+        return Result.success("已派发工单",null);
     }
 
     @GetMapping("/reject")
@@ -183,19 +188,45 @@ public class OrderController {
         order.setWorkStatus(3);
         orderService.updateOrder(order);
 
-        return Result.success("维修人员已接单，请耐心等待结果");
+        return Result.success("维修人员已接单，请耐心等待结果",null);
     }
 
     @GetMapping("/getOrderByWhere")
-    public Result getOrderByWhere(String param,String keyword,String currentPage,String pageSize) {
-        Integer count = 0;
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
+    public Result getOrderByWhere(String param,String keyword,@RequestParam(defaultValue = "0") Long start,@RequestParam(defaultValue = "0")Long end,String currentPage,String pageSize) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<WorkOrder> list = orderService.searchOrderByWhere(param,keyword);
-        for (WorkOrder order:list){
-            count++;
+        List<WorkOrder> list = null;
+
+        Integer count = 0;
+
+        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
+        if(start == 0){
+            list = orderService.searchOrderByWhere(param,keyword);
+            count = orderService.countByWhere(param,keyword);
+        }else {
+            list = orderService.searchOrderByWhere(param,keyword,simpleDateFormat.format(start),simpleDateFormat.format(end));
+            count = orderService.countByWhere(param,keyword,simpleDateFormat.format(start),simpleDateFormat.format(end));
         }
+
         Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,String.valueOf(count));
+        List<WorkOrder> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("pageMap", pageMap);
+        map.put("Info", listVO);
+        return Result.success(map);
+//        return null;
+    }
+
+
+    @GetMapping("/getOrderByUserAndStatus")
+    public Result getOrderByUserAndStatus(String userId,String status,String currentPage,String pageSize){
+        String count = orderService.countByUserAndStatus(userId,status).toString();
+
+        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
+        List<WorkOrder> list = orderService.searchOrderByUserAndStatus(userId,status);
+
+        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
         List<WorkOrder> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -214,7 +245,7 @@ public class OrderController {
             count++;
         }
         Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,String.valueOf(count));
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
+        List<WorkOrder> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("pageMap", pageMap);
@@ -235,30 +266,31 @@ public class OrderController {
         //上报完成后，工单状态改变为4
         order.setWorkStatus(4);
         order.setEndTime(new Date());
+
         //更新数据库
         orderService.updateOrder(order);
-        //创建历史工单类
-        OrderHistory completeOrder = new OrderHistory();
-        //判断备注是否为空，不为空则添加备注
-        if (StringUtils.isNoneBlank(remark)) {
-            completeOrder.setRemark(remark);
-        }
-        //给历史工单的每项数据赋值
-        completeOrder.setEndTime(new Date());
-        completeOrder.setCreater(order.getCreater());
-        completeOrder.setCreatedTime(order.getCreatedTime());
-        completeOrder.setDealId(order.getDealId());
-        completeOrder.setEquipmentId(order.getEquipmentId());
-        completeOrder.setProblem(order.getDescription());
-        completeOrder.setHistoryId(String.valueOf(new Date().getTime() / 1000));
-        completeOrder.setWorkType(order.getWorkType());
+//        //创建历史工单类
+//        OrderHistory completeOrder = new OrderHistory();
+//        //判断备注是否为空，不为空则添加备注
+//        if (StringUtils.isNoneBlank(remark)) {
+//            completeOrder.setRemark(remark);
+//        }
+//        //给历史工单的每项数据赋值
+//        completeOrder.setEndTime(new Date());
+//        completeOrder.setCreater(order.getCreater());
+//        completeOrder.setCreatedTime(order.getCreatedTime());
+//        completeOrder.setDealId(order.getDealId());
+//        completeOrder.setEquipmentId(order.getEquipmentId());
+//        completeOrder.setProblem(order.getDescription());
+//        completeOrder.setHistoryId(String.valueOf(new Date().getTime() / 1000));
+//        completeOrder.setWorkType(order.getWorkType());
 
-        try {
-            //保存历史工单到数据库
-            orderHistoryService.saveOrder(completeOrder);
-        } catch (Exception e) {
-            return Result.fail(e.getMessage());
-        }
+//        try {
+//            //保存历史工单到数据库
+//            orderHistoryService.saveOrder(completeOrder);
+//        } catch (Exception e) {
+//            return Result.fail(e.getMessage());
+//        }
         //在之前的工单表中删除
 //        orderService.deleteOrder(orderId);
 
@@ -270,134 +302,52 @@ public class OrderController {
         return Result.success(null);
     }
 
+    @GetMapping("/reportByDate")
+    public Result reportByDate(String year,String month){
+        List<TotalVo> list = null;
+        System.out.println("传入的月份为："+month);
+        if(month == null){
+            list = orderService.getTotal(year);
+        }else {
+            if(month.length()<2){
+                month = '0'+month;
+            }
+            list = orderService.getTotal(year,month);
+        }
+        return Result.success(list);
+    }
+    @GetMapping("/reportByUser")
+    public Result reportByUser(String year,String month,String userId){
+        List<TotalVo> list = null;
+        System.out.println("year="+year+"    month="+month+"    userid="+userId);
+//        if(year == null){
+//            list = orderService.getTotalbyUser(userId);
+//        }else
+        if(month == null){
+            list = orderService.getTotalbyUser(year,userId);
+        }else {
+            if(month.length()<2){
+                month = '0'+month;
+            }
+            list = orderService.getTotalbyUser(year,month,userId);
+        }
+        return Result.success(list);
+    }
+    @GetMapping("/reportByWeek")
+    public Result reportByWeek(String date){
+        List<TotalVo> list = null;
+        list = orderService.getTotalByWeek(date);
+        return Result.success(list);
+    }
     @GetMapping("/getHistoryByDay")
     public Result getHistoryByDay(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-        String count = orderHistoryService.getCountByDay().toString();
+        String count = orderService.getCountByDay().toString();
 
         PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByDay();
+        List<WorkOrder> list = orderService.getHistoryByDay(new Date());
 
         Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByWeek")
-    public Result getHistoryByWeek(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByWeek().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByWeek();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByMonth")
-    public Result getHistoryByMonth(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByMonth().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByMonth();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByYear")
-    public Result getHistoryByYear(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByYear().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByYear();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByLastYear")
-    public Result getHistoryByLastYear(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByLastYear().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByLastYear();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByLastWeek")
-    public Result getHistoryByLastWeek(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByLastWeek().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByLastWeek();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByLastMonth")
-    public Result getHistoryByLastMonth(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByLastMonth().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByLastMonth();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-
-    @GetMapping("/getHistoryByYearMonth")
-    public Result getHistoryByYearMonth(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-
-        String count = orderHistoryService.getCountByYearMonth().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<OrderHistory> list = orderHistoryService.getHistoryByYearMonth();
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<OrderHistory> listVO = Entity2VO.entityList2VOList(list, HistoryVo.class);
+        List<WorkOrder> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("pageMap", pageMap);

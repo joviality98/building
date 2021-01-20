@@ -67,6 +67,8 @@ public class EquipmentController {
 
     @PostMapping("/AddEquipImg")
     public Result addEquipImg(@Validated @RequestBody OrderEquipment orderEquipment){
+        System.out.println("进入添加图片方法");
+        System.out.println(orderEquipment.getEquipId() +"  "+orderEquipment.getOrderId()+"  "+ orderEquipment.getImg());
         orderEquipmentService.saveEquipImg(orderEquipment);
         return Result.success("success");
     }

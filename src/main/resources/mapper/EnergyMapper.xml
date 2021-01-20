@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.EnergyMapper">
+
+    <resultMap type="com.building.entity.Energy" id="Energy">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="price" column="price"/>
+        <result property="enable" column="time"/>
+        <result property="unit" column="unit"/>
+    </resultMap>
+
+    <select id="show" resultMap="Energy">
+        select * from energy
+    </select>
+    
+    <select id="getName" resultType="java.lang.String">
+        select name
+        from energy where id = #{identity };
+    </select>
+
+</mapper>

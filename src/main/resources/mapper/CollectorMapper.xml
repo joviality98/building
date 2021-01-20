@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.CollectorMapper">
+
+    <resultMap type="com.building.entity.Collector" id="Collector">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="collectorAreaId" column="collector_area_id"/>
+    </resultMap>
+
+    <select id="findByCollectorAreaId" resultMap="Collector">
+        select id,
+               name AS label,
+               collector_area_id,
+               ip,
+               status,
+               remark,
+               port
+        from collector where collector_area_id = #{collectorAreaId}
+    </select>
+
+</mapper>

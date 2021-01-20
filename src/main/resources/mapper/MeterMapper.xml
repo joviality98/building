@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.MeterMapper">
+
+    <resultMap type="com.building.entity.Meter" id="Meter">
+        <id property="id" column="id"/>
+        <result property="meterId" column="meter_id"/>
+        <result property="name" column="name"/>
+        <result property="collectorId" column="collector_id"/>
+        <result property="gradeId" column="grade_id"/>
+    </resultMap>
+
+    <select id="findByCollectorId" resultMap="Meter">
+        select id, meter_id, name AS label, collector_id, grade_id, addr, port
+        from meter where collector_id = #{collectorId}
+    </select>
+
+    <select id="getName" resultType="java.lang.String">
+        select name
+        from meter where id = #{id};
+    </select>
+
+</mapper>

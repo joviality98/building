@@ -10,7 +10,7 @@ public interface UserService {
     //按id查找用户
 //    User searchUserById(String id);
 
-    public boolean verify(String userName,String password);
+    public User verify(String userName);
 
     public PageInfo<User> show(User user);
 

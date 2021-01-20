@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.SysLogMapper">
+    <resultMap id="SysLog" type="com.building.entity.SysLog">
+        <id column="ID" property="id"></id>
+        <result column="USERNAME" property="userName"></result>
+        <result column="DESCS" property="descs"></result>
+        <result column="METHODS" property="methods"></result>
+        <result column="CREATETIME" property="createTime"></result>
+        <result column="IP" property="ip"></result>
+    </resultMap>
+
+    <select id="show" resultMap="SysLog">
+        select * from sys_log
+    </select>
+
+    <insert id="saveSysLog" parameterType="com.building.entity.SysLog">
+        insert into sys_log(USERNAME,DESCS,METHODS,CREATETIME,IP)
+        values(#{userName},#{descs},#{methods},#{createTime},#{ip})
+    </insert>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.CollectorAreaMapper">
+
+    <resultMap type="com.building.entity.CollectorArea" id="CollectorArea">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+    </resultMap>
+
+    <select id="findTree" resultMap="CollectorArea">
+        select id,
+               name AS label,
+               parent_id
+        from collector_area
+    </select>
+
+</mapper>

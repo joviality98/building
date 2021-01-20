@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.AreaDataMapper">
+
+    <resultMap type="com.building.entity.AreaData" id="AreaData">
+        <id property="areaId" column="area_id"/>
+        <result property="countValue" column="count_value"/>
+        <result property="countTime" column="count_time"/>
+        <result property="countType" column="count_type"/>
+        <result property="energyId" column="energy_id"/>
+    </resultMap>
+
+    <select id="getToday" resultMap="AreaData" parameterType="com.building.entity.AreaData">
+        SELECT DATE_FORMAT(count_time,"%h") AS dates,
+               SUM(count_value) AS allValue,
+               energy_id
+        FROM area_data
+        WHERE DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') AND (energy_id = #{energyId} OR #{energyId} = '' )
+        GROUP BY DATE_FORMAT(count_time,'%Y-%m-%d %h')
+    </select>
+
+    <select id="getProportion" resultMap="AreaData" parameterType="com.building.entity.AreaData">
+        SELECT SUM(count_value) AS allValue,
+               energy_id,
+               count_type
+        FROM area_data
+        WHERE count_type = #{countType}
+        GROUP BY energy_id
+    </select>
+
+    <select id="getValue" resultMap="AreaData" parameterType="com.building.entity.AreaData">
+        SELECT count_value,
+               DATE_FORMAT(count_time,"%Y") AS dates,
+               energy_id
+        from area_data
+        <where>
+            <if test="areaId != null and areaId !=''">and area_id = #{areaId}</if>
+            <if test="countTime!=null and countTime!=null">and count_time = #{countTime}</if>
+            <if test="countType != null and countType !=''">and count_type = #{countType}</if>
+            <if test="energyId != null and energyId !=''">and energy_id = #{energyId}</if>
+        </where>
+        ORDER BY DATE_FORMAT(count_time,"%Y")
+    </select>
+
+    <select id="getAll" resultMap="AreaData" parameterType="com.building.entity.AreaData">
+        select * from area_data
+    </select>
+
+    <select id="getByType" resultMap="AreaData" parameterType="com.building.entity.AreaData">
+        SELECT energy_id,
+               sum(count_value) AS allValue
+        FROM area_data
+        WHERE count_type = #{countType}
+        GROUP BY energy_id
+            DESC
+    </select>
+
+    <select id="getDataByEnergyId" resultMap="AreaData" parameterType="com.building.entity.AreaData">
+        select * from area_data where energy_id =#{energyId}
+    </select>
+
+    <select id="getValueByYear" resultMap="AreaData">
+        SELECT DATE_FORMAT(a.count_time,"%Y") AS dates,
+               sum(a.count_value) AS thisValue,
+               sum(b.count_value) AS lastValue,
+               ((sum(a.count_value)-sum(b.count_value))/abs(sum(b.count_value))*100) AS TB
+        FROM area_data a
+                 RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%Y') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 YEAR),'%Y')
+        WHERE a.area_id = #{areaId} and b.area_id = #{areaId}
+        GROUP BY dates
+        ORDER BY DATE_FORMAT(a.count_time,"%Y")
+            DESC
+    </select>
+
+    <select id="getValueByMonth" resultMap="AreaData">
+        SELECT DATE_FORMAT(a.count_time,"%Y") AS dates,
+               DATE_FORMAT(a.count_time,"%m") AS months,
+               sum(a.count_value) AS thisValue,
+               sum(b.count_value) AS lastValue,
+               ((sum(a.count_value)-sum(b.count_value))/abs(sum(b.count_value))*100) AS TB
+        FROM area_data a
+                 RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 YEAR),'%Y-%m')
+        WHERE a.area_id = #{areaId} and b.area_id = #{areaId}
+        GROUP BY dates,months
+        ORDER BY DATE_FORMAT(a.count_time,"%Y"),
+                 DATE_FORMAT(a.count_time,"%m")
+            DESC
+    </select>
+
+</mapper>

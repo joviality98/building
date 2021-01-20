@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.VariantDataMapper">
+
+    <resultMap type="com.building.entity.VariantData" id="VariantData">
+        <id property="variantId" column="variant_id"/>
+        <result property="countValue" column="count_value"/>
+        <result property="countTime" column="count_time"/>
+        <result property="countType" column="count_type"/>
+
+    </resultMap>
+
+    <select id="findVariantData" resultMap="VariantData">
+        select * from variant_data
+        <where>
+            <if test="variantId != null and variantId !=''">and variant_id = #{variantId}</if>
+            <if test="countType != null and countType !=''">and count_type = #{countType}</if>
+        </where>
+    </select>
+
+</mapper>

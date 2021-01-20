@@ -30,15 +30,14 @@
         <result property="phone" column="phone"/>
     </resultMap>
 
-    <select id="verify" resultType="java.lang.Integer">
-        select count(*)
+    <select id="verify" resultMap="BaseResultMap">
+        select *
         from user
         where USERNAME = #{userName}
-          and PASSWORD = #{password}
     </select>
 
     <select id="show" resultMap="BaseResultMap">
-        select *
+        select USERID, USERNAME, SEX, USERTYPE, REMARK, email,phone
         from user </select>
 
     <insert id="add" parameterType="com.building.entity.User">
@@ -89,40 +88,14 @@
         from user
         where USERID = #{userId}
            or USERNAME = #{userName}
-           or USERTYPE = #{userType} </select>
+           or USERTYPE = #{userType}
+    </select>
 
     <select id="searchStaff" resultMap="BaseResultMap">
         select *
         from user
         where USERTYPE = #{userType}
-          and ENABLED = #{enabled} </select>
+          and ENABLED = #{enabled}
+    </select>
 
-    <sql id="UserFindCriteria">
-        <where>
-
-            <if test="userName != null and userName !=''">USERNAME = #{userName}</if>
-
-            <if test="account != null and account !=''">ACCOUNT = #{account}</if>
-
-            <if test="password != null and password !=''">PASSWORD = #{password}</if>
-
-            <if test="sex != null and sex != ''">SEX = #{sex}</if>
-
-            <if test="deptId != null and deptid != ''">DEPTID = #{deptid}</if>
-
-            <if test="locked != null and locked != ''">LOCKED = #{locked}</if>
-
-            <if test="remark != null and remark != ''">REMARK = #{remark}</if>
-
-            <if test="userType != null and userType != ''">USERTYPE = #{userType}</if>
-
-            <if test="enabled != null and enabled != ''">ENABLED = #{enabled}</if>
-
-            <if test="email != null and email != ''">email = #{email}</if>
-
-            <if test="phone != null and phone != ''">phone = #{phone}</if>
-
-        </where>
-
-    </sql>
 </mapper>
