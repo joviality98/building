@@ -113,4 +113,5 @@ public class User extends Page {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

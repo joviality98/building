@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -191,83 +190,5 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         return orderMapper.getTotalByWeek(week);
     }
 
-    @Override
-    public List<WorkOrder> getHistoryByDay(Date day) {
-        return orderMapper.filterByDay(day);
-    }
 
-    @Override
-    public Integer getCountByDay() {
-        return orderMapper.countByDay();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByWeek() {
-        return orderMapper.filterByWeek();
-    }
-
-    @Override
-    public Integer getCountByWeek() {
-        return orderMapper.countByWeek();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByMonth() {
-        return orderMapper.filterByMonth();
-    }
-
-    @Override
-    public Integer getCountByMonth() {
-        return orderMapper.countByMonth();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByYear() {
-        return orderMapper.filterByYear();
-    }
-
-    @Override
-    public Integer getCountByYear() {
-        return orderMapper.countByYear();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByLastYear() {
-        return orderMapper.filterByLastYear();
-    }
-
-    @Override
-    public Integer getCountByLastYear() {
-        return orderMapper.countByLastYear();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByLastWeek() {
-        return orderMapper.filterByLastWeek();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByLastMonth() {
-        return orderMapper.filterByLastMonth();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByYearMonth() {
-        return orderMapper.filterByYearMonth();
-    }
-
-    @Override
-    public Integer getCountByLastWeek() {
-        return orderMapper.countByLastWeek();
-    }
-
-    @Override
-    public Integer getCountByLastMonth() {
-        return orderMapper.countByLastMonth();
-    }
-
-    @Override
-    public Integer getCountByYearMonth() {
-        return orderMapper.countByYearMonth();
-    }
 }

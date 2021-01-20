@@ -23,11 +23,22 @@
     select count(*) from work_order
   </select>
 
+  <select id="getNeedDeal" resultMap="BaseResultMap">
+    select * from work_order where DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= date(created_time) and work_status = 1
+  </select>
+
   <select id="getTotalByYear" resultType="com.building.entity.vo.TotalVo">
     SELECT
       DATE_FORMAT(a.created_time,'%Y') as year,
       DATE_FORMAT(a.created_time,'%m') as month,
-	  COUNT(*) as total
+	  COUNT(*) as total,
+      SUM(IF(a.work_type = 1,1,0)) workType1,
+	  SUM(IF(a.work_type = 2 ,1,0)) workType2,
+	  SUM(IF(a.work_type = 3 ,1,0)) workType3,
+      SUM(IF(a.work_status = 1,1,0)) workStatus1,
+      SUM(IF(a.work_status = 2,1,0)) workStatus2,
+      SUM(IF(a.work_status = 3,1,0)) workStatus3,
+      SUM(IF(a.work_status = 4,1,0)) workStatus4
     FROM
       work_order a
     WHERE
@@ -41,7 +52,14 @@
       DATE_FORMAT(a.created_time,'%Y') as year,
       DATE_FORMAT(a.created_time,'%m') as month,
       DATE_FORMAT(a.created_time,'%d') as day,
-	  COUNT(*) as total
+	  COUNT(*) as total,
+      SUM(IF(a.work_type = 1,1,0)) workType1,
+	  SUM(IF(a.work_type = 2 ,1,0)) workType2,
+	  SUM(IF(a.work_type = 3 ,1,0)) workType3,
+      SUM(IF(a.work_status = 1,1,0)) workStatus1,
+      SUM(IF(a.work_status = 2,1,0)) workStatus2,
+      SUM(IF(a.work_status = 3,1,0)) workStatus3,
+      SUM(IF(a.work_status = 4,1,0)) workStatus4
     FROM
       work_order a
     WHERE
@@ -111,7 +129,14 @@
       DATE_FORMAT(a.created_time,'%m') as month,
       DATE_FORMAT(a.created_time,'%d') as day,
       WEEKDAY(a.created_time) as weekDay,
-	  COUNT(*) as total
+	  COUNT(*) as total,
+      SUM(IF(a.work_type = 1,1,0)) workType1,
+	  SUM(IF(a.work_type = 2 ,1,0)) workType2,
+	  SUM(IF(a.work_type = 3 ,1,0)) workType3,
+      SUM(IF(a.work_status = 1,1,0)) workStatus1,
+      SUM(IF(a.work_status = 2,1,0)) workStatus2,
+      SUM(IF(a.work_status = 3,1,0)) workStatus3,
+      SUM(IF(a.work_status = 4,1,0)) workStatus4
     from work_order a
     where
       yearweek(date_format(a.created_time,'%Y-%m-%d'),1) = yearweek(date_format(#{week},'%Y-%m-%d'),1)

@@ -14,10 +14,7 @@ import com.building.util.JwtUtil;
 import com.building.util.TreeUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -56,6 +53,10 @@ public class UserController {
         if(!bCryptPasswordEncoderUtil.matches(password,u.getPassword())){
             return Result.fail("密码不正确");
         }
+
+        u.setEnabled("1");
+        userService.update(u);
+
         List<Menu> menus = menuService.getMenuByUsername(userName);
         List<MenuVo> listVO = Entity2VO.entityList2VOList(menus, MenuVo.class);
 
@@ -98,5 +99,14 @@ public class UserController {
     @RequestMapping(value = "/user/searchStaff",method = RequestMethod.GET)
     public Result searchStaff(String userType, String enabled){
         return Result.success(userService.searchStaff(userType, enabled));
+    }
+    @PostMapping("/user/logout")
+    public Result logout(@RequestBody HashMap<String, String> map){
+
+        User user = userService.search("",map.get("name"),"").get(0);
+        user.setEnabled("0");
+        userService.update(user);
+
+        return Result.success();
     }
 }

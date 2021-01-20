@@ -339,20 +339,5 @@ public class OrderController {
         list = orderService.getTotalByWeek(date);
         return Result.success(list);
     }
-    @GetMapping("/getHistoryByDay")
-    public Result getHistoryByDay(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-        String count = orderService.getCountByDay().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<WorkOrder> list = orderService.getHistoryByDay(new Date());
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<WorkOrder> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
 
 }
