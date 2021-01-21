@@ -27,7 +27,7 @@ public class VariantDataController {
         System.out.println(countType);
         System.out.println(countTime);
         List<VariantData> list = variantDataService.findVariantData(variantId, countType, countTime);
-        return Result.success(list)
+        return Result.success(list);
     }
 
     public Result findVariantData(HttpServletRequest request, @RequestParam(required = false) int variantId, @RequestParam(required = false) int countType){
