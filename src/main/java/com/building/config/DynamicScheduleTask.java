@@ -39,23 +39,18 @@ public class DynamicScheduleTask implements SchedulingConfigurer {
                     System.out.println("执行定时任务:"+ LocalDateTime.now().toLocalTime());
                     List<WorkOrder> list = workOrderMapper.getNeedDeal();
 
-                    System.out.println(list);
                     list.forEach((order)->{
-                        System.out.println(order);
-                        if(new Date().getTime()>order.getCreatedTime().getTime()+ 1000*60*60){
-                            System.out.println("该派单了。。。。。。。");
-//                            try {
-//                                goSend(order);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
+                        try {
+                            goSend(order);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     });
                 },
                 //设置执行周期（trigger）
                 triggerContext -> {
                     //执行周期
-                    String cron = "0 5 * * * ?";
+                    String cron = "0 0/30 * * * ?";
                     if(StringUtils.isEmpty(cron)){
 
                     }
@@ -67,11 +62,12 @@ public class DynamicScheduleTask implements SchedulingConfigurer {
     @Async
     public void goSend(WorkOrder order) throws InterruptedException{
         List<User> list = userMapper.searchStaff("1","1");
-
+        if(new Date().getTime()>order.getCreatedTime().getTime()+ 1000*60*60) {
             order.setWorkStatus(2);
             order.setDealId(list.get(0).getUserId());
             workOrderMapper.updateByPrimaryKeySelective(order);
 
             System.out.println(" =====完成派单 ======");
+        }
     }
 }
