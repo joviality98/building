@@ -1,6 +1,7 @@
 package com.building.dao;
 
 import com.building.entity.WorkOrder;
+import com.building.entity.vo.CalcOrderVo;
 import com.building.entity.vo.TotalVo;
 import com.building.util.MyMapper;
 
@@ -11,6 +12,7 @@ public interface WorkOrderMapper extends MyMapper<WorkOrder> {
 
     public Integer getOrderCount();
 
+    CalcOrderVo calcOrder();
 
     List<WorkOrder> getNeedDeal();
 

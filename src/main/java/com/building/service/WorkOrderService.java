@@ -1,6 +1,7 @@
 package com.building.service;
 
 import com.building.entity.WorkOrder;
+import com.building.entity.vo.CalcOrderVo;
 import com.building.entity.vo.TotalVo;
 
 import java.util.List;
@@ -87,4 +88,7 @@ public interface WorkOrderService {
 
     //查询一周的数据总量
     List<TotalVo> getTotalByWeek(String week);
+
+    //计算今天，本月，本年工单总量及其环比
+    CalcOrderVo getCalcOrder();
 }

@@ -123,6 +123,11 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/calcOrder")
+    public Result calcOrder(){
+        return Result.success(orderService.getCalcOrder());
+    }
+
     @GetMapping("/sendOrder")
     public Result sendOrder(String orderId, String dealId){
         if(StringUtils.isEmpty(orderId)){
