@@ -23,7 +23,32 @@
     select count(*) from work_order
   </select>
 
+  <select id="calcOrder" resultType="com.building.entity.vo.CalcOrderVo">
+    SELECT
+      sum(if(date_format(a.created_time,'%Y%m%d')=date_format(CURDATE(),'%Y%m%d'),1,0)) dayTotal,
+      sum(if(date_format(a.created_time,'%Y%m%d')=date_format(date_sub(CURDATE(),INTERVAL 1 DAY),'%Y%m%d'),1,0)) lastDayTotal,
 
+      (sum(if(date_format(a.created_time,'%Y%m%d')=date_format(CURDATE(),'%Y%m%d'),1,0))
+        -sum(if(date_format(a.created_time,'%Y%m%d')=date_format(date_sub(CURDATE(),INTERVAL 1 DAY),'%Y%m%d'),1,0))
+        )/sum(if(date_format(a.created_time,'%Y%m%d')=date_format(date_sub(CURDATE(),INTERVAL 1 DAY),'%Y%m%d'),1,0)) dayVal,
+
+      sum(if(date_format(a.created_time,'%Y%m')=date_format(CURDATE(),'%Y%m'),1,0)) monthTotal,
+      sum(if(date_format(a.created_time,'%Y%m')=date_format(date_sub(CURDATE(),INTERVAL 1 MONTH),'%Y%m'),1,0)) lastMonthTotal,
+
+      (sum(if(date_format(a.created_time,'%Y%m')=date_format(CURDATE(),'%Y%m'),1,0))
+        -sum(if(date_format(a.created_time,'%Y%m')=date_format(date_sub(CURDATE(),INTERVAL 1 MONTH),'%Y%m'),1,0))
+        )/sum(if(date_format(a.created_time,'%Y%m')=date_format(date_sub(CURDATE(),INTERVAL 1 MONTH),'%Y%m'),1,0)) monthVal,
+
+      sum(if(date_format(a.created_time,'%Y')=date_format(CURDATE(),'%Y'),1,0)) yearTotal,
+      sum(if(date_format(a.created_time,'%Y')=date_format(date_sub(CURDATE(),interval 1 year),'%Y'),1,0)) lastYearTotal,
+      (
+          sum(if(date_format(a.created_time,'%Y')=date_format(CURDATE(),'%Y'),1,0))
+          -
+          sum(if(date_format(a.created_time,'%Y')=date_format(date_sub(CURDATE(),interval 1 year),'%Y'),1,0))
+        )/sum(if(date_format(a.created_time,'%Y')=date_format(date_sub(CURDATE(),interval 1 year),'%Y'),1,0)) yearVal
+
+    from work_order a
+  </select>
   <select id="getNeedDeal" resultMap="BaseResultMap">
     select * from work_order where DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= date(created_time) and work_status = 1
   </select>
