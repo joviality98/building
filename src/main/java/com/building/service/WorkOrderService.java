@@ -88,59 +88,5 @@ public interface WorkOrderService {
 
     //查询一周的数据总量
     List<TotalVo> getTotalByWeek(String week);
-<<<<<<< HEAD
-    /**
-     * 按天获取工单
-     * @return
-     */
-    List<WorkOrder> getHistoryByDay(Date date);
 
-    Integer getCountByDay();
-
-    /**
-     * 按周获取工单
-     * @return
-     */
-    List<WorkOrder> getHistoryByWeek();
-
-    Integer getCountByWeek();
-
-    /**
-     * 按月获取工单
-     * @return
-     */
-    List<WorkOrder> getHistoryByMonth();
-
-    Integer getCountByMonth();
-
-    /**
-     * 按年获取工单
-     * @return
-     */
-    List<WorkOrder> getHistoryByYear();
-
-    Integer getCountByYear();
-
-    /**
-     * 按去年获取工单
-     * @return
-     */
-    List<WorkOrder> getHistoryByLastYear();
-
-    Integer getCountByLastYear();
-
-    List<WorkOrder> getHistoryByLastWeek();
-
-    List<WorkOrder> getHistoryByLastMonth();
-
-    List<WorkOrder> getHistoryByYearMonth();
-
-    Integer getCountByLastWeek();
-
-    Integer getCountByLastMonth();
-
-    Integer getCountByYearMonth();
-=======
-
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 }

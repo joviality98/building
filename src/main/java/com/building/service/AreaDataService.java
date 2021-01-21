@@ -24,4 +24,8 @@ public interface AreaDataService {
     public List<AreaData> getValueByYear(int areaId);
 
     public List<AreaData> getValueByMonth(int areaId);
+
+    public List<AreaData> getHbByMonth(int areaId);
+
+    public List<AreaData> getHbByDay(int areaId);
 }

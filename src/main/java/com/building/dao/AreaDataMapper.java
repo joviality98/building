@@ -38,4 +38,9 @@ public interface AreaDataMapper {
 
     //获取每月的总量和同比*
     public List<AreaData> getValueByMonth(int areaId);
+
+    //获取月环比
+    public List<AreaData> getHbByMonth(int areaId);
+    //获取天环比
+    public List<AreaData> getHbByDay(int areaId);
 }

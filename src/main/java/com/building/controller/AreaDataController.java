@@ -74,6 +74,19 @@ public class AreaDataController {
         return Result.success(list);
     }
 
+    //获取环比
+    @RequestMapping(value = "/area/getHbByMonth",method = RequestMethod.GET)
+    public Result getHbByMonth(int areaId){
+        List<AreaData> list = areaDataService.getHbByMonth(areaId);
+        return Result.success(list);
+    }
+
+    @RequestMapping(value = "/area/getHbByDay",method = RequestMethod.GET)
+    public Result getHbByDay(int areaId){
+        List<AreaData> list = areaDataService.getHbByDay(areaId);
+        return Result.success(list);
+    }
+
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder, WebRequest request) {
         //转换日期格式

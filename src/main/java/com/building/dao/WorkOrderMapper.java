@@ -11,11 +11,8 @@ public interface WorkOrderMapper extends MyMapper<WorkOrder> {
 
     public Integer getOrderCount();
 
-<<<<<<< HEAD
-=======
     List<WorkOrder> getNeedDeal();
 
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
     List<TotalVo> getTotalByYear(String year);
 
     List<TotalVo> getTotalByYearMonth(String year,String month);

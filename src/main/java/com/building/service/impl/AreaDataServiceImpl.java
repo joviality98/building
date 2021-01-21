@@ -32,7 +32,6 @@ public class AreaDataServiceImpl implements AreaDataService {
         return areaDataMapper.getProportion(energyId, countType);
     }
 
-
     @Override
     public List<AreaData> getValue(Integer areaId, Date countTime, Integer countType, String energyId) {
         List<AreaData> list = areaDataMapper.getValue(areaId, countTime, countType, energyId);
@@ -65,5 +64,16 @@ public class AreaDataServiceImpl implements AreaDataService {
     public List<AreaData> getValueByMonth(int areaId) {
         return areaDataMapper.getValueByMonth(areaId);
     }
+
+    @Override
+    public List<AreaData> getHbByMonth(int areaId) {
+        return areaDataMapper.getHbByMonth(areaId);
+    }
+
+    @Override
+    public List<AreaData> getHbByDay(int areaId) {
+        return areaDataMapper.getHbByDay(areaId);
+    }
+
 
 }

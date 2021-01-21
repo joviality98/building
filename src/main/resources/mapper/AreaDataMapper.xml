@@ -26,7 +26,7 @@
                SUM(count_value) AS allValue,
                energy_id
         FROM area_data
-        WHERE DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') AND (energy_id = #{energyId} OR #{energyId} = '' ) AND count_type = #{countType}
+        WHERE DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') AND (energy_id = #{energyId} OR #{energyId} = '' )
         GROUP BY DATE_FORMAT(count_time,'%Y-%m-%d %h')
     </select>
 
@@ -76,53 +76,47 @@
                ((sum(a.count_value)-sum(b.count_value))/abs(sum(b.count_value))*100) AS TB
         FROM area_data a
                  RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%Y') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 YEAR),'%Y')
-        WHERE a.area_id = #{areaId} and b.area_id = #{areaId}
+        WHERE a.area_id = #{areaId} and b.area_id = #{areaId} AND DATE_FORMAT(a.count_time,'%Y') = DATE_FORMAT(NOW(),'%Y')
         GROUP BY dates
         ORDER BY DATE_FORMAT(a.count_time,"%Y")
-            DESC
     </select>
 
     <select id="getValueByMonth" resultMap="AreaData">
-        SELECT DATE_FORMAT(a.count_time,"%Y") AS dates,
-               DATE_FORMAT(a.count_time,"%m") AS months,
+        SELECT DATE_FORMAT(a.count_time,"%m") AS dates,
                sum(a.count_value) AS thisValue,
                sum(b.count_value) AS lastValue,
                ((sum(a.count_value)-sum(b.count_value))/abs(sum(b.count_value))*100) AS TB
         FROM area_data a
                  RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 MONTH),'%Y-%m')
-        WHERE a.area_id = #{areaId} and b.area_id = #{areaId}
-        GROUP BY dates,months
-        ORDER BY DATE_FORMAT(a.count_time,"%Y"),
-                 DATE_FORMAT(a.count_time,"%m")
-            DESC
+        WHERE a.area_id = #{areaId} and b.area_id = #{areaId} AND DATE_FORMAT(a.count_time,'%Y') = DATE_FORMAT(NOW(),'%Y')
+        GROUP BY dates
+        ORDER BY DATE_FORMAT(a.count_time,"%m")
     </select>
 
-<!--    <select id="" resultMap="AreaData">-->
-<!--        SELECT DATE_FORMAT(a.count_time,"%Y-%m") AS dates,-->
-<!--            sum(a.count_value) AS thisValue,-->
-<!--            sum(b.count_value) AS lastValue,-->
-<!--            ((sum(a.count_value)-sum(b.count_value))/sum(b.count_value))*100 AS HB-->
-<!--        FROM area_data a-->
-<!--                RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 YEAR),'%Y-%m')-->
-<!--        WHERE a.area_id = #{areaId} and b.area_id = #{areaId} AND DATE_FORMAT(a.count_time,'%Y') = DATE_FORMAT(NOW(),'%Y')-->
-<!--        GROUP BY dates-->
-<!--        ORDER BY DATE_FORMAT(a.count_time,"%Y-%m")-->
-<!--        DESC-->
-<!--    </select>-->
+    <select id="getHbByMonth" resultMap="AreaData">
+        SELECT DATE_FORMAT(a.count_time,"%m") AS dates,
+            sum(a.count_value) AS thisValue,
+            sum(b.count_value) AS lastValue,
+            ((sum(a.count_value)-sum(b.count_value))/sum(b.count_value))*100 AS HB
+        FROM area_data a
+                RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 YEAR),'%Y-%m')
+        WHERE a.area_id = #{areaId} and b.area_id = #{areaId} AND DATE_FORMAT(a.count_time,'%Y') = DATE_FORMAT(NOW(),'%Y')
+        GROUP BY dates
+        ORDER BY DATE_FORMAT(a.count_time,"%m")
+    </select>
 
-<!--    <select id="" resultMap="AreaData">-->
-<!--        SELECT DATE_FORMAT(a.count_time,"%m") AS months,-->
-<!--               DATE_FORMAT(a.count_time,"%d") AS days,-->
-<!--               sum(a.count_value) AS thisValue,-->
-<!--               sum(b.count_value) AS lastValue,-->
-<!--               ((sum(a.count_value)-sum(b.count_value))/sum(b.count_value))*100 AS HB-->
-<!--        FROM area_data a-->
-<!--                 RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%m') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 MONTH),'%m')-->
-<!--        WHERE a.area_id = #{areaId} and b.area_id = #{areaId} AND DATE_FORMAT(a.count_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')-->
-<!--        GROUP BY months, days-->
-<!--        ORDER BY DATE_FORMAT(a.count_time,"%m"),-->
-<!--                 DATE_FORMAT(a.count_time,"%d")-->
-<!--            DESC-->
-<!--    </select>-->
+    <select id="getHbByDay" resultMap="AreaData">
+        SELECT DATE_FORMAT(a.count_time,"%m") AS months,
+               DATE_FORMAT(a.count_time,"%d") AS dates,
+               sum(a.count_value) AS thisValue,
+               sum(b.count_value) AS lastValue,
+               ((sum(a.count_value)-sum(b.count_value))/sum(b.count_value))*100 AS HB
+        FROM area_data a
+                 RIGHT JOIN area_data b ON DATE_FORMAT(b.count_time,'%m') = DATE_FORMAT(DATE_SUB(a.count_time,INTERVAL 1 MONTH),'%m')
+        WHERE a.area_id = #{areaId} and b.area_id = #{areaId} AND DATE_FORMAT(a.count_time,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m')
+        GROUP BY months, dates
+        ORDER BY DATE_FORMAT(a.count_time,"%m"),
+                 DATE_FORMAT(a.count_time,"%d")
+    </select>
 
 </mapper>

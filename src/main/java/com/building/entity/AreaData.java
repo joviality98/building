@@ -17,9 +17,13 @@ public class AreaData{
     private int countType;
     private String energyId;
     private double TB;
+    private double HB;
     private String dates;
     private String months;
     private double allValue;
+
+    private double thisValue;
+    private double lastValue;
 
     private String dayValue;
     private String monthValue;
@@ -121,4 +125,27 @@ public class AreaData{
         this.yearValue = yearValue;
     }
 
+    public double getHB() {
+        return HB;
+    }
+
+    public void setHB(double HB) {
+        this.HB = HB;
+    }
+
+    public double getThisValue() {
+        return thisValue;
+    }
+
+    public void setThisValue(double thisValue) {
+        this.thisValue = thisValue;
+    }
+
+    public double getLastValue() {
+        return lastValue;
+    }
+
+    public void setLastValue(double lastValue) {
+        this.lastValue = lastValue;
+    }
 }
