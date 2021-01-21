@@ -9,8 +9,6 @@ public class TotalVo {
     private String weekDay;
     private String workStatus;
     private String workType;
-<<<<<<< HEAD
-=======
     private String workType1;
     private String workType2;
     private String workType3;
@@ -18,7 +16,6 @@ public class TotalVo {
     private String workStatus2;
     private String workStatus3;
     private String workStatus4;
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 
     @Override
     public String toString() {
@@ -31,11 +28,6 @@ public class TotalVo {
                 ", weekDay='" + weekDay + '\'' +
                 ", workStatus='" + workStatus + '\'' +
                 ", workType='" + workType + '\'' +
-<<<<<<< HEAD
-                '}';
-    }
-
-=======
                 ", workType1='" + workType1 + '\'' +
                 ", workType2='" + workType2 + '\'' +
                 ", workType3='" + workType3 + '\'' +
@@ -102,7 +94,6 @@ public class TotalVo {
         this.workStatus4 = workStatus4;
     }
 
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
     public String getWorkStatus() {
         return workStatus;
     }

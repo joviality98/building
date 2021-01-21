@@ -30,10 +30,6 @@ public class VariantDataController {
         return Result.success(list);
     }
 
-    public Result findVariantData(HttpServletRequest request, @RequestParam(required = false) int variantId, @RequestParam(required = false) int countType){
-        List<VariantData> list = variantDataService.findVariantData(variantId, countType);
-        return Result.success(list);
-    }
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder, WebRequest request) {

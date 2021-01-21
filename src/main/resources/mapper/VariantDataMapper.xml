@@ -12,7 +12,7 @@
     </resultMap>
 
     <select id="findVariantData" resultMap="VariantData">
-<<<<<<< HEAD
+
         SELECT count_value,
                (CASE
                     WHEN count_type = 1 THEN DATE_FORMAT(count_time,'%h')
@@ -22,13 +22,7 @@
                    END) AS time
         FROM variant_data
         WHERE variant_id = #{variantId} AND DATE_FORMAT(count_time,'%Y-%m-%d')= DATE_FORMAT(#{countTime},'%Y-%m-%d') AND count_type=#{countType}
-=======
-        select * from variant_data
-        <where>
-            <if test="variantId != null and variantId !=''">and variant_id = #{variantId}</if>
-            <if test="countType != null and countType !=''">and count_type = #{countType}</if>
-        </where>
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
+
     </select>
 
 </mapper>

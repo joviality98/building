@@ -339,43 +339,5 @@ public class OrderController {
         list = orderService.getTotalByWeek(date);
         return Result.success(list);
     }
-    @GetMapping("/getHistoryByDay")
-    public Result getHistoryByDay(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){
-        String count = orderService.getCountByDay().toString();
-
-        PageHelper.startPage(Integer.parseInt(currentPage),Integer.parseInt(pageSize));
-        List<WorkOrder> list = orderService.getHistoryByDay(new Date());
-
-        Map<String, Object> pageMap = PageUtils.pageHandler(currentPage,count);
-        List<WorkOrder> listVO = Entity2VO.entityList2VOList(list, OrderVO.class);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageMap", pageMap);
-        map.put("Info", listVO);
-        return Result.success(map);
-    }
-    @GetMapping("/reportByUser")
-    public Result reportByUser(String year,String month,String userId){
-        List<TotalVo> list = null;
-        System.out.println("year="+year+"    month="+month+"    userid="+userId);
-//        if(year == null){
-//            list = orderService.getTotalbyUser(userId);
-//        }else
-        if(month == null){
-            list = orderService.getTotalbyUser(year,userId);
-        }else {
-            if(month.length()<2){
-                month = '0'+month;
-            }
-            list = orderService.getTotalbyUser(year,month,userId);
-        }
-        return Result.success(list);
-    }
-    @GetMapping("/reportByWeek")
-    public Result reportByWeek(String date){
-        List<TotalVo> list = null;
-        list = orderService.getTotalByWeek(date);
-        return Result.success(list);
-    }
 
 }

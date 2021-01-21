@@ -79,7 +79,6 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     public Integer countByWhere(String param, String keyWord, String start, String end) {
         Example example = new Example(WorkOrder.class);
         Example.Criteria ec = example.createCriteria();
-<<<<<<< HEAD
 
         if(StringUtils.isNotEmpty(keyWord)){
             ec.andEqualTo(param,keyWord);
@@ -92,20 +91,6 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         }
         example.setOrderByClause("created_time desc");
 
-=======
-
-        if(StringUtils.isNotEmpty(keyWord)){
-            ec.andEqualTo(param,keyWord);
-        }
-        if(StringUtils.isNoneBlank(start)){
-            ec.andGreaterThanOrEqualTo("createdTime",start);
-        }
-        if(StringUtils.isNoneBlank(end)){
-            ec.andLessThanOrEqualTo("createdTime",end);
-        }
-        example.setOrderByClause("created_time desc");
-
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
         return orderMapper.selectCountByExample(example);
     }
 
@@ -206,87 +191,4 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         return orderMapper.getTotalByWeek(week);
     }
 
-<<<<<<< HEAD
-    @Override
-    public List<WorkOrder> getHistoryByDay(Date day) {
-        return orderMapper.filterByDay(day);
-    }
-
-    @Override
-    public Integer getCountByDay() {
-        return orderMapper.countByDay();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByWeek() {
-        return orderMapper.filterByWeek();
-    }
-
-    @Override
-    public Integer getCountByWeek() {
-        return orderMapper.countByWeek();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByMonth() {
-        return orderMapper.filterByMonth();
-    }
-
-    @Override
-    public Integer getCountByMonth() {
-        return orderMapper.countByMonth();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByYear() {
-        return orderMapper.filterByYear();
-    }
-
-    @Override
-    public Integer getCountByYear() {
-        return orderMapper.countByYear();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByLastYear() {
-        return orderMapper.filterByLastYear();
-    }
-
-    @Override
-    public Integer getCountByLastYear() {
-        return orderMapper.countByLastYear();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByLastWeek() {
-        return orderMapper.filterByLastWeek();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByLastMonth() {
-        return orderMapper.filterByLastMonth();
-    }
-
-    @Override
-    public List<WorkOrder> getHistoryByYearMonth() {
-        return orderMapper.filterByYearMonth();
-    }
-
-    @Override
-    public Integer getCountByLastWeek() {
-        return orderMapper.countByLastWeek();
-    }
-
-    @Override
-    public Integer getCountByLastMonth() {
-        return orderMapper.countByLastMonth();
-    }
-
-    @Override
-    public Integer getCountByYearMonth() {
-        return orderMapper.countByYearMonth();
-    }
-=======
-
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 }

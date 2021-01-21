@@ -23,20 +23,14 @@
     select count(*) from work_order
   </select>
 
-<<<<<<< HEAD
-=======
   <select id="getNeedDeal" resultMap="BaseResultMap">
     select * from work_order where DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= date(created_time) and work_status = 1
   </select>
 
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
   <select id="getTotalByYear" resultType="com.building.entity.vo.TotalVo">
     SELECT
       DATE_FORMAT(a.created_time,'%Y') as year,
       DATE_FORMAT(a.created_time,'%m') as month,
-<<<<<<< HEAD
-	  COUNT(*) as total
-=======
 	  COUNT(*) as total,
       SUM(IF(a.work_type = 1,1,0)) workType1,
 	  SUM(IF(a.work_type = 2 ,1,0)) workType2,
@@ -45,7 +39,6 @@
       SUM(IF(a.work_status = 2,1,0)) workStatus2,
       SUM(IF(a.work_status = 3,1,0)) workStatus3,
       SUM(IF(a.work_status = 4,1,0)) workStatus4
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
     FROM
       work_order a
     WHERE
@@ -59,9 +52,6 @@
       DATE_FORMAT(a.created_time,'%Y') as year,
       DATE_FORMAT(a.created_time,'%m') as month,
       DATE_FORMAT(a.created_time,'%d') as day,
-<<<<<<< HEAD
-	  COUNT(*) as total
-=======
 	  COUNT(*) as total,
       SUM(IF(a.work_type = 1,1,0)) workType1,
 	  SUM(IF(a.work_type = 2 ,1,0)) workType2,
@@ -70,7 +60,6 @@
       SUM(IF(a.work_status = 2,1,0)) workStatus2,
       SUM(IF(a.work_status = 3,1,0)) workStatus3,
       SUM(IF(a.work_status = 4,1,0)) workStatus4
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
     FROM
       work_order a
     WHERE
@@ -140,12 +129,6 @@
       DATE_FORMAT(a.created_time,'%m') as month,
       DATE_FORMAT(a.created_time,'%d') as day,
       WEEKDAY(a.created_time) as weekDay,
-<<<<<<< HEAD
-	  COUNT(*) as total
-    from work_order a
-    where
-      yearweek(date_format(created_time,'%Y-%m-%d'),1) = yearweek(date_format(#{week},'%Y-%m-%d'),1)
-=======
 	  COUNT(*) as total,
       SUM(IF(a.work_type = 1,1,0)) workType1,
 	  SUM(IF(a.work_type = 2 ,1,0)) workType2,
@@ -157,7 +140,6 @@
     from work_order a
     where
       yearweek(date_format(a.created_time,'%Y-%m-%d'),1) = yearweek(date_format(#{week},'%Y-%m-%d'),1)
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
     group by DATE_FORMAT(a.created_time,'%d')
   </select>
 
@@ -167,10 +149,7 @@
   <select id="countByDay" resultType="java.lang.Integer">
     select count(*) from work_order where TO_DAYS(created_time) = TO_DAYS(NOW())
   </select>
-<<<<<<< HEAD
-  <select id="filterByWeek" resultMap="BaseResultMap">
-    SELECT * FROM work_order WHERE YEARWEEK(date_format(created_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
-=======
+
   <select id="filterByWeek" resultType="com.building.entity.vo.TotalVo">
     SELECT SELECT
       DATE_FORMAT(a.created_time,'%Y') as year,
@@ -180,7 +159,6 @@
       COUNT(*) as total
     from work_order a
     WHERE YEARWEEK(date_format(a.created_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
->>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
   </select>
   <select id="countByWeek" resultType="java.lang.Integer">
     SELECT count(*) FROM work_order WHERE YEARWEEK(date_format(created_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
