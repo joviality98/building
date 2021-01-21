@@ -26,7 +26,7 @@
                SUM(count_value) AS allValue,
                energy_id
         FROM area_data
-        WHERE DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') AND (energy_id = #{energyId} OR #{energyId} = '' ) AND count_type = '1'
+        WHERE DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') AND (energy_id = #{energyId} OR #{energyId} = '' ) AND count_type = #{countType}
         GROUP BY DATE_FORMAT(count_time,'%Y-%m-%d %h')
     </select>
 

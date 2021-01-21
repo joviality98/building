@@ -120,4 +120,5 @@ public class AreaData{
     public void setYearValue(String yearValue) {
         this.yearValue = yearValue;
     }
+
 }

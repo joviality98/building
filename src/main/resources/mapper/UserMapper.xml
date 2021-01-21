@@ -65,7 +65,7 @@
 
             <if test="sex != null and sex != ''">SEX = #{sex},</if>
 
-            <if test="deptId != null and deptid != ''">DEPTID = #{deptid},</if>
+            <if test="deptId != null and deptId != ''">DEPTID = #{deptId},</if>
 
             <if test="locked != null and locked != ''">LOCKED = #{locked},</if>
 

@@ -23,4 +23,5 @@ public class AccessControlAllowOriginFilter extends WebMvcConfigurerAdapter {
 //                        "X-Frame-Options")
 //                .allowCredentials(true).maxAge(3600);
 //    }
+
 }

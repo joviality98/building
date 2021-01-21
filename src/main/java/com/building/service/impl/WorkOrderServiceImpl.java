@@ -79,6 +79,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     public Integer countByWhere(String param, String keyWord, String start, String end) {
         Example example = new Example(WorkOrder.class);
         Example.Criteria ec = example.createCriteria();
+<<<<<<< HEAD
 
         if(StringUtils.isNotEmpty(keyWord)){
             ec.andEqualTo(param,keyWord);
@@ -91,6 +92,20 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         }
         example.setOrderByClause("created_time desc");
 
+=======
+
+        if(StringUtils.isNotEmpty(keyWord)){
+            ec.andEqualTo(param,keyWord);
+        }
+        if(StringUtils.isNoneBlank(start)){
+            ec.andGreaterThanOrEqualTo("createdTime",start);
+        }
+        if(StringUtils.isNoneBlank(end)){
+            ec.andLessThanOrEqualTo("createdTime",end);
+        }
+        example.setOrderByClause("created_time desc");
+
+>>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
         return orderMapper.selectCountByExample(example);
     }
 
@@ -191,6 +206,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         return orderMapper.getTotalByWeek(week);
     }
 
+<<<<<<< HEAD
     @Override
     public List<WorkOrder> getHistoryByDay(Date day) {
         return orderMapper.filterByDay(day);
@@ -270,4 +286,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     public Integer getCountByYearMonth() {
         return orderMapper.countByYearMonth();
     }
+=======
+
+>>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 }

@@ -22,11 +22,16 @@ public class VariantDataController {
     private VariantDataService variantDataService;
 
     @RequestMapping(value = "/variant/findVariantData",method = RequestMethod.GET)
-    public Result findVariantData(HttpServletRequest request, @RequestParam(required = false) int variantId, @RequestParam(required = false) int countType, @RequestParam(required = false) Date countTime){
+    public Result findVariantData(HttpServletRequest request, @RequestParam(required = false) int variantId, @RequestParam(required = false) int countType, @RequestParam(required = false) Date countTime) {
         System.out.println(variantId);
         System.out.println(countType);
         System.out.println(countTime);
         List<VariantData> list = variantDataService.findVariantData(variantId, countType, countTime);
+        return Result.success(list)
+    }
+
+    public Result findVariantData(HttpServletRequest request, @RequestParam(required = false) int variantId, @RequestParam(required = false) int countType){
+        List<VariantData> list = variantDataService.findVariantData(variantId, countType);
         return Result.success(list);
     }
 

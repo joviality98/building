@@ -354,5 +354,28 @@ public class OrderController {
         map.put("Info", listVO);
         return Result.success(map);
     }
+    @GetMapping("/reportByUser")
+    public Result reportByUser(String year,String month,String userId){
+        List<TotalVo> list = null;
+        System.out.println("year="+year+"    month="+month+"    userid="+userId);
+//        if(year == null){
+//            list = orderService.getTotalbyUser(userId);
+//        }else
+        if(month == null){
+            list = orderService.getTotalbyUser(year,userId);
+        }else {
+            if(month.length()<2){
+                month = '0'+month;
+            }
+            list = orderService.getTotalbyUser(year,month,userId);
+        }
+        return Result.success(list);
+    }
+    @GetMapping("/reportByWeek")
+    public Result reportByWeek(String date){
+        List<TotalVo> list = null;
+        list = orderService.getTotalByWeek(date);
+        return Result.success(list);
+    }
 
 }

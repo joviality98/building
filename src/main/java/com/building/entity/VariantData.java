@@ -7,11 +7,18 @@ import java.util.Date;
 public class VariantData {
 
     private Integer variantId;
+<<<<<<< HEAD
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date countTime;
     private double countValue;
     private int countType;
     private String time;
+=======
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date countTime;
+    private double countValue;
+    private int countType;
+>>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 
     private CollectorArea collectorArea;
     private Collector collector;
@@ -88,6 +95,7 @@ public class VariantData {
     public void setVariant(Variant variant) {
         this.variant = variant;
     }
+<<<<<<< HEAD
 
     public String getTime() {
         return time;
@@ -96,4 +104,6 @@ public class VariantData {
     public void setTime(String time) {
         this.time = time;
     }
+=======
+>>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 }

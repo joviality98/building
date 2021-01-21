@@ -9,6 +9,16 @@ public class TotalVo {
     private String weekDay;
     private String workStatus;
     private String workType;
+<<<<<<< HEAD
+=======
+    private String workType1;
+    private String workType2;
+    private String workType3;
+    private String workStatus1;
+    private String workStatus2;
+    private String workStatus3;
+    private String workStatus4;
+>>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
 
     @Override
     public String toString() {
@@ -21,9 +31,78 @@ public class TotalVo {
                 ", weekDay='" + weekDay + '\'' +
                 ", workStatus='" + workStatus + '\'' +
                 ", workType='" + workType + '\'' +
+<<<<<<< HEAD
                 '}';
     }
 
+=======
+                ", workType1='" + workType1 + '\'' +
+                ", workType2='" + workType2 + '\'' +
+                ", workType3='" + workType3 + '\'' +
+                ", workStatus1='" + workStatus1 + '\'' +
+                ", workStatus2='" + workStatus2 + '\'' +
+                ", workStatus3='" + workStatus3 + '\'' +
+                ", workStatus4='" + workStatus4 + '\'' +
+                '}';
+    }
+
+    public String getWorkType1() {
+        return workType1;
+    }
+
+    public void setWorkType1(String workType1) {
+        this.workType1 = workType1;
+    }
+
+    public String getWorkType2() {
+        return workType2;
+    }
+
+    public void setWorkType2(String workType2) {
+        this.workType2 = workType2;
+    }
+
+    public String getWorkType3() {
+        return workType3;
+    }
+
+    public void setWorkType3(String workType3) {
+        this.workType3 = workType3;
+    }
+
+    public String getWorkStatus1() {
+        return workStatus1;
+    }
+
+    public void setWorkStatus1(String workStatus1) {
+        this.workStatus1 = workStatus1;
+    }
+
+    public String getWorkStatus2() {
+        return workStatus2;
+    }
+
+    public void setWorkStatus2(String workStatus2) {
+        this.workStatus2 = workStatus2;
+    }
+
+    public String getWorkStatus3() {
+        return workStatus3;
+    }
+
+    public void setWorkStatus3(String workStatus3) {
+        this.workStatus3 = workStatus3;
+    }
+
+    public String getWorkStatus4() {
+        return workStatus4;
+    }
+
+    public void setWorkStatus4(String workStatus4) {
+        this.workStatus4 = workStatus4;
+    }
+
+>>>>>>> bbea5954caac95170547b5904d7a19d856c5757a
     public String getWorkStatus() {
         return workStatus;
     }
