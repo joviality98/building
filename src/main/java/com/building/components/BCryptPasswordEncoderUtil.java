@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BCryptPasswordEncoderUtil extends BCryptPasswordEncoder {
 
+    //加密
     @Override
     public String encode(CharSequence rawPassword) {
         return super.encode(rawPassword);

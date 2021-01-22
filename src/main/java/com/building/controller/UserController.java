@@ -74,6 +74,7 @@ public class UserController {
     @MyLog("增加用户")
     @RequestMapping(value = "/user/add",method = RequestMethod.POST)
     public Result add(@RequestBody User user){
+        user.setPassword(bCryptPasswordEncoderUtil.encode(user.getPassword()));
         Object obj = userService.add(user);
         return Result.success(obj);
     }
