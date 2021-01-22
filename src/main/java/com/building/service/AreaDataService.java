@@ -21,11 +21,11 @@ public interface AreaDataService {
 
     public List<AreaData> getByType(Integer countType);
 
-    public List<AreaData> getValueByYear(int areaId);
+    public List<AreaData> getValueByYear(Integer areaId);
 
-    public List<AreaData> getValueByMonth(int areaId);
+    public List<AreaData> getValueByMonth(Integer areaId);
 
-    public List<AreaData> getHbByMonth(int areaId);
+    public List<AreaData> getHbByMonth(Integer areaId);
 
-    public List<AreaData> getHbByDay(int areaId);
+    public List<AreaData> getHbByDay(Integer areaId);
 }

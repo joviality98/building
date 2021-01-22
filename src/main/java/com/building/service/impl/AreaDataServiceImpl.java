@@ -56,22 +56,22 @@ public class AreaDataServiceImpl implements AreaDataService {
     }
 
     @Override
-    public List<AreaData> getValueByYear(int areaId) {
+    public List<AreaData> getValueByYear(Integer areaId) {
         return areaDataMapper.getValueByYear(areaId);
     }
 
     @Override
-    public List<AreaData> getValueByMonth(int areaId) {
+    public List<AreaData> getValueByMonth(Integer areaId) {
         return areaDataMapper.getValueByMonth(areaId);
     }
 
     @Override
-    public List<AreaData> getHbByMonth(int areaId) {
+    public List<AreaData> getHbByMonth(Integer areaId) {
         return areaDataMapper.getHbByMonth(areaId);
     }
 
     @Override
-    public List<AreaData> getHbByDay(int areaId) {
+    public List<AreaData> getHbByDay(Integer areaId) {
         return areaDataMapper.getHbByDay(areaId);
     }
 

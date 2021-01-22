@@ -25,9 +25,12 @@ public class AreaData{
     private double thisValue;
     private double lastValue;
 
-    private String dayValue;
-    private String monthValue;
-    private String yearValue;
+    private double dayValue;
+    private double dayProp;
+    private double monthValue;
+    private double monthProp;
+    private double yearValue;
+    private double yearProp;
 
     public int getAreaId() {
         return areaId;
@@ -101,28 +104,52 @@ public class AreaData{
         this.allValue = allValue;
     }
 
-    public String getDayValue() {
+    public double getDayValue() {
         return dayValue;
     }
 
-    public void setDayValue(String dayValue) {
+    public void setDayValue(double dayValue) {
         this.dayValue = dayValue;
     }
 
-    public String getMonthValue() {
+    public double getDayProp() {
+        return dayProp;
+    }
+
+    public void setDayProp(double dayProp) {
+        this.dayProp = dayProp;
+    }
+
+    public double getMonthValue() {
         return monthValue;
     }
 
-    public void setMonthValue(String monthValue) {
+    public void setMonthValue(double monthValue) {
         this.monthValue = monthValue;
     }
 
-    public String getYearValue() {
+    public double getMonthProp() {
+        return monthProp;
+    }
+
+    public void setMonthProp(double monthProp) {
+        this.monthProp = monthProp;
+    }
+
+    public double getYearValue() {
         return yearValue;
     }
 
-    public void setYearValue(String yearValue) {
+    public void setYearValue(double yearValue) {
         this.yearValue = yearValue;
+    }
+
+    public double getYearProp() {
+        return yearProp;
+    }
+
+    public void setYearProp(double yearProp) {
+        this.yearProp = yearProp;
     }
 
     public double getHB() {
