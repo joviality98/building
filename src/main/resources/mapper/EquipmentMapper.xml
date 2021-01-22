@@ -20,6 +20,6 @@
   </resultMap>
 
   <select id="getEquipmentCount" resultType="java.lang.Integer">
-    select count(*) from equipment
+    select count(equipment_id) from equipment
   </select>
 </mapper>

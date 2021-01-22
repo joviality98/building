@@ -4,6 +4,7 @@ import com.building.dao.UserMapper;
 import com.building.dao.WorkOrderMapper;
 import com.building.entity.User;
 import com.building.entity.WorkOrder;
+import com.building.entity.vo.CalcOrderVo;
 import com.building.entity.vo.TotalVo;
 import com.building.service.WorkOrderService;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -191,5 +191,9 @@ public class WorkOrderServiceImpl implements WorkOrderService {
         return orderMapper.getTotalByWeek(week);
     }
 
+    @Override
+    public CalcOrderVo getCalcOrder() {
+        return orderMapper.calcOrder();
+    }
 
 }
