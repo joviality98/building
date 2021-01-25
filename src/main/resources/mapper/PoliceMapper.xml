@@ -33,4 +33,10 @@
         values(#{name},#{type},#{detail},#{time},#{deal})
     </insert>
 
+    <select id="alarmNumber" resultMap="Police">
+        SELECT COUNT(IF(DATE_FORMAT(time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d'),true,null)) AS today,
+               (COUNT(IF(DATE_FORMAT(time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d'),true,null)) - COUNT(IF(DATE_FORMAT(time,'%Y-%m-%d') = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 DAY),'%Y-%m-%d'),true,null)))/COUNT(IF(DATE_FORMAT(time,'%Y-%m-%d') = DATE_FORMAT(DATE_SUB(NOW(),INTERVAL 1 DAY),'%Y-%m-%d'),true,null))*100 AS prop
+        FROM alarm
+    </select>
+
 </mapper>

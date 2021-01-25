@@ -3,6 +3,7 @@ package com.building.dao;
 import com.building.entity.Police;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,5 +15,7 @@ public interface PoliceMapper {
     public int editDeal(Police police);
 
     public int add(Police police);
+
+    public Police alarmNumber();
 
 }

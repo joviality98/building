@@ -10,4 +10,6 @@ public interface PoliceService {
     public int editDeal(Police police);
 
     public int add(Police police);
+
+    public Police alarmNumber();
 }

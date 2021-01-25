@@ -15,6 +15,9 @@ public class Police extends Page {
     private Date time;//报警时间
     private boolean deal;//是否处理（1：处理， 0：未处理）
 
+    private Integer today;
+    private Integer prop;
+
     public Integer getId() {
         return id;
     }
@@ -61,5 +64,21 @@ public class Police extends Page {
 
     public void setDeal(boolean deal) {
         this.deal = deal;
+    }
+
+    public Integer getToday() {
+        return today;
+    }
+
+    public void setToday(Integer today) {
+        this.today = today;
+    }
+
+    public Integer getProp() {
+        return prop;
+    }
+
+    public void setProp(Integer prop) {
+        this.prop = prop;
     }
 }

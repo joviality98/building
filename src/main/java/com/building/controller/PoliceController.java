@@ -40,6 +40,11 @@ public class PoliceController {
         return Result.success(obj);
     }
 
+    @RequestMapping(value = "/alarm/alarmNumber",method = RequestMethod.GET)
+    public Result alarmNumber(){
+        return Result.success(policeService.alarmNumber());
+    }
+
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder, WebRequest request) {
         //转换日期格式

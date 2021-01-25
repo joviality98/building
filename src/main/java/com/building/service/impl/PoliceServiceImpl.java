@@ -33,7 +33,11 @@ public class PoliceServiceImpl implements PoliceService {
 
     @Override
     public int add(Police police) {
-
         return policeMapper.add(police);
+    }
+
+    @Override
+    public Police alarmNumber() {
+        return policeMapper.alarmNumber();
     }
 }
