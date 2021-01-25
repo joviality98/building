@@ -51,7 +51,7 @@
   </select>
   <select id="getNeedDeal" resultMap="BaseResultMap">
     select work_id,description,creater,deal_id,work_type,work_status,created_time,equipment_id,end_time
-    from work_order where DATE_SUB(CURDATE(), INTERVAL 3 DAY) &lt;= date(created_time) and work_status = 1
+    from work_order where created_time &gt;= DATE_SUB(CURDATE(), INTERVAL 3 DAY) and work_status = 1
   </select>
 
   <select id="getTotalByYear" resultType="com.building.entity.vo.TotalVo">

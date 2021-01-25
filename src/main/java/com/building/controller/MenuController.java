@@ -1,7 +1,6 @@
 package com.building.controller;
 
 import com.building.common.lang.Result;
-import com.building.entity.User;
 import com.building.entity.vo.MenuVo;
 import com.building.service.MenuService;
 import com.building.service.UserService;
@@ -22,13 +21,6 @@ public class MenuController {
 
     @Autowired
     private MenuService menuService;
-
-    @GetMapping("/build")
-    public Result buildMenus(){
-        String userName = "";
-        List<User> users = userService.search("",userName,"");
-        return null;
-    }
 
     @GetMapping("/list")
     public Result getMenu(){
