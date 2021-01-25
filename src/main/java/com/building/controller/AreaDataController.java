@@ -63,26 +63,26 @@ public class AreaDataController {
 
     //获取同比
     @RequestMapping(value = "/area/getByYear",method = RequestMethod.GET)
-    public Result getValueByYear(int areaId){
+    public Result getValueByYear(Integer areaId){
         List<AreaData> list = areaDataService.getValueByYear(areaId);
         return Result.success(list);
     }
 
     @RequestMapping(value = "/area/getByMonth",method = RequestMethod.GET)
-    public Result getValueByMonth(int areaId){
+    public Result getValueByMonth(Integer areaId){
         List<AreaData> list = areaDataService.getValueByMonth(areaId);
         return Result.success(list);
     }
 
     //获取环比
     @RequestMapping(value = "/area/getHbByMonth",method = RequestMethod.GET)
-    public Result getHbByMonth(int areaId){
+    public Result getHbByMonth(Integer areaId){
         List<AreaData> list = areaDataService.getHbByMonth(areaId);
         return Result.success(list);
     }
 
     @RequestMapping(value = "/area/getHbByDay",method = RequestMethod.GET)
-    public Result getHbByDay(int areaId){
+    public Result getHbByDay(Integer areaId){
         List<AreaData> list = areaDataService.getHbByDay(areaId);
         return Result.success(list);
     }

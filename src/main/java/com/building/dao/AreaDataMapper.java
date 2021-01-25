@@ -34,13 +34,13 @@ public interface AreaDataMapper {
     public List<AreaData> getByType(Integer countType);
 
     //获取每年的countValue总量和同比*
-    public List<AreaData> getValueByYear(int areaId);
+    public List<AreaData> getValueByYear(Integer areaId);
 
     //获取每月的总量和同比*
-    public List<AreaData> getValueByMonth(int areaId);
+    public List<AreaData> getValueByMonth(Integer areaId);
 
     //获取月环比
-    public List<AreaData> getHbByMonth(int areaId);
+    public List<AreaData> getHbByMonth(Integer areaId);
     //获取天环比
-    public List<AreaData> getHbByDay(int areaId);
+    public List<AreaData> getHbByDay(Integer areaId);
 }

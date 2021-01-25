@@ -12,13 +12,14 @@
     </resultMap>
 
     <select id="getEnergy" resultMap="AreaData">
-        SELECT SUM(IF(count_type = 2, count_value,0)) dayValue,
-               SUM(IF(count_type = 3, count_value,0)) monthValue,
-               SUM(IF(count_type = 4, count_value,0)) yearValue,
-               area_id
+        SELECT 	SUM(IF(count_type = 2, count_value,0)) dayValue,
+                  (SUM(IF(count_type = 2, count_value,0))-SUM(IF(count_type = 2 AND DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(DATE_SUB(count_time,INTERVAL 1 DAY),'%Y-%m-%d'),count_value,0)))/SUM(IF(count_type = 2 AND DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT(DATE_SUB(count_time,INTERVAL 1 DAY),'%Y-%m-%d'),count_value,0))*100 dayProp,
+                  SUM(IF(count_type = 3, count_value,0)) monthValue,
+                  (SUM(IF(count_type = 3, count_value,0))-SUM(IF(count_type = 3 AND DATE_FORMAT(count_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(count_time,INTERVAL 1 MONTH),'%Y-%m'),count_value,0)))/SUM(IF(count_type = 3 AND DATE_FORMAT(count_time,'%Y-%m') = DATE_FORMAT(DATE_SUB(count_time,INTERVAL 1 MONTH),'%Y-%m'),count_value,0))*100 monthProp,
+                  SUM(IF(count_type = 4, count_value,0)) yearValue,
+                  (SUM(IF(count_type = 4, count_value,0))-SUM(IF(count_type = 4 AND DATE_FORMAT(count_time,'%Y') = DATE_FORMAT(DATE_SUB(count_time,INTERVAL 1 YEAR),'%Y'),count_value,0)))/SUM(IF(count_type = 4 AND DATE_FORMAT(count_time,'%Y') = DATE_FORMAT(DATE_SUB(count_time,INTERVAL 1 YEAR),'%Y'),count_value,0))*100 yearProp
         FROM area_data
         WHERE DATE_FORMAT(count_time,'%Y-%m-%d') = DATE_FORMAT('2020-11-05','%Y-%m-%d') AND (area_id = 1 OR area_id = 31)
-        GROUP BY area_id
     </select>
 
     <select id="getToday" resultMap="AreaData" parameterType="com.building.entity.AreaData">
