@@ -10,6 +10,7 @@ import com.building.service.EmailService;
 import com.building.service.OrderHistoryService;
 import com.building.service.UserService;
 import com.building.service.WorkOrderService;
+import com.building.util.ConstantUtils;
 import com.building.util.Entity2VO;
 import com.building.util.PageUtils;
 import com.building.util.UploadUtils;
@@ -49,6 +50,19 @@ public class OrderController {
 
     @Autowired
     private EmailService emailService;
+
+    @GetMapping("/getTimer")
+    public Result getTimer(){
+        return Result.success(ConstantUtils.Num.orderTimer);
+    }
+
+    @GetMapping("/setTimer")
+    public Result setTime(int timer){
+//        DynamicScheduleTask dynamicScheduleTask = new DynamicScheduleTask();
+//        dynamicScheduleTask.setOrderTimer(timer);
+        ConstantUtils.Num.orderTimer = timer;
+        return Result.success("success");
+    }
 
     @GetMapping("/list")
     public Result getAllOrders(@RequestParam(defaultValue = "1") String currentPage, @RequestParam(defaultValue = "5")String pageSize){

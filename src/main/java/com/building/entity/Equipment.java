@@ -1,5 +1,7 @@
 package com.building.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.util.Date;
@@ -27,7 +29,7 @@ public class Equipment {
     /**
      * 规格型号
      */
-    private String type;
+    private String model;
 
     /**
      * 品牌
@@ -37,12 +39,14 @@ public class Equipment {
     /**
      * 生成日期
      */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     @Column(name = "created_time")
     private Date createdTime;
 
     /**
      * 采购日期
      */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     @Column(name = "stock_time")
     private Date stockTime;
 
@@ -107,6 +111,7 @@ public class Equipment {
     /**
      * 用途
      */
+    @Column(name = "use_to")
     private String useTo;
 
     private String sourse;
@@ -123,18 +128,36 @@ public class Equipment {
     @Column(name = "depre_type")
     private Integer depreType;
 
+    /**
+     * 预计使用月份(60)
+     */
     @Column(name = "pre_depreciation_moon")
     private Integer preDepreciationMoon;
 
+    /**
+     * 预计净残值率%
+     */
     @Column(name = "salvage_value_rate")
     private Double salvageValueRate;
 
+    /**
+     * 维修截止日期
+     */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     @Column(name = "mainten_end_time")
     private Date maintenEndTime;
 
+    /**
+     * 报废截止日期
+     */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     @Column(name = "reject_end_time")
     private Date rejectEndTime;
 
+    /**
+     * 销账日期
+     */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     @Column(name = "discard_time")
     private Date discardTime;
 
@@ -160,18 +183,51 @@ public class Equipment {
      * 下次维修日期
      */
     @Column(name = "next_check_time")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date nextCheckTime;
 
-    /**
-     * 货币种类
-     */
-    @Column(name = "currency_kind")
-    private String currencyKind;
+    private String chejian;
 
-    /**
-     * 自定义
-     */
-    private String other;
+    private String chanxian;
+
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "equipmentId='" + equipmentId + '\'' +
+                ", equipmentName='" + equipmentName + '\'' +
+                ", equipmentStatus=" + equipmentStatus +
+                ", model='" + model + '\'' +
+                ", brand='" + brand + '\'' +
+                ", createdTime=" + createdTime +
+                ", stockTime=" + stockTime +
+                ", position='" + position + '\'' +
+                ", price=" + price +
+                ", serId='" + serId + '\'' +
+                ", kindId='" + kindId + '\'' +
+                ", kindName='" + kindName + '\'' +
+                ", fac='" + fac + '\'' +
+                ", acc='" + acc + '\'' +
+                ", deptId='" + deptId + '\'' +
+                ", deptName='" + deptName + '\'' +
+                ", chargeby='" + chargeby + '\'' +
+                ", buyPrs='" + buyPrs + '\'' +
+                ", useTo='" + useTo + '\'' +
+                ", sourse='" + sourse + '\'' +
+                ", totalFee='" + totalFee + '\'' +
+                ", depreType=" + depreType +
+                ", preDepreciationMoon=" + preDepreciationMoon +
+                ", salvageValueRate=" + salvageValueRate +
+                ", maintenEndTime=" + maintenEndTime +
+                ", rejectEndTime=" + rejectEndTime +
+                ", discardTime=" + discardTime +
+                ", discardType=" + discardType +
+                ", freqCount=" + freqCount +
+                ", freqUnit='" + freqUnit + '\'' +
+                ", nextCheckTime=" + nextCheckTime +
+                ", chejian='" + chejian + '\'' +
+                ", chanxian='" + chanxian + '\'' +
+                '}';
+    }
 
     /**
      * 获取设备id
@@ -230,19 +286,19 @@ public class Equipment {
     /**
      * 获取规格型号
      *
-     * @return type - 规格型号
+     * @return model - 规格型号
      */
-    public String getType() {
-        return type;
+    public String getModel() {
+        return model;
     }
 
     /**
      * 设置规格型号
      *
-     * @param type 规格型号
+     * @param model 规格型号
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     /**
@@ -496,19 +552,19 @@ public class Equipment {
     /**
      * 获取用途
      *
-     * @return use - 用途
+     * @return use_to - 用途
      */
-    public String getuseTo() {
+    public String getUseTo() {
         return useTo;
     }
 
     /**
      * 设置用途
      *
-     * @param use 用途
+     * @param useTo 用途
      */
-    public void setuseTo(String use) {
-        this.useTo = use;
+    public void setUseTo(String useTo) {
+        this.useTo = useTo;
     }
 
     /**
@@ -562,70 +618,90 @@ public class Equipment {
     }
 
     /**
-     * @return pre_depreciation_moon
+     * 获取预计使用月份(60)
+     *
+     * @return pre_depreciation_moon - 预计使用月份(60)
      */
     public Integer getPreDepreciationMoon() {
         return preDepreciationMoon;
     }
 
     /**
-     * @param preDepreciationMoon
+     * 设置预计使用月份(60)
+     *
+     * @param preDepreciationMoon 预计使用月份(60)
      */
     public void setPreDepreciationMoon(Integer preDepreciationMoon) {
         this.preDepreciationMoon = preDepreciationMoon;
     }
 
     /**
-     * @return salvage_value_rate
+     * 获取预计净残值率%
+     *
+     * @return salvage_value_rate - 预计净残值率%
      */
     public Double getSalvageValueRate() {
         return salvageValueRate;
     }
 
     /**
-     * @param salvageValueRate
+     * 设置预计净残值率%
+     *
+     * @param salvageValueRate 预计净残值率%
      */
     public void setSalvageValueRate(Double salvageValueRate) {
         this.salvageValueRate = salvageValueRate;
     }
 
     /**
-     * @return mainten_end_time
+     * 获取维修截止日期
+     *
+     * @return mainten_end_time - 维修截止日期
      */
     public Date getMaintenEndTime() {
         return maintenEndTime;
     }
 
     /**
-     * @param maintenEndTime
+     * 设置维修截止日期
+     *
+     * @param maintenEndTime 维修截止日期
      */
     public void setMaintenEndTime(Date maintenEndTime) {
         this.maintenEndTime = maintenEndTime;
     }
 
     /**
-     * @return reject_end_time
+     * 获取报废截止日期
+     *
+     * @return reject_end_time - 报废截止日期
      */
     public Date getRejectEndTime() {
         return rejectEndTime;
     }
 
     /**
-     * @param rejectEndTime
+     * 设置报废截止日期
+     *
+     * @param rejectEndTime 报废截止日期
      */
     public void setRejectEndTime(Date rejectEndTime) {
         this.rejectEndTime = rejectEndTime;
     }
 
     /**
-     * @return discard_time
+     * 获取销账日期
+     *
+     * @return discard_time - 销账日期
      */
     public Date getDiscardTime() {
         return discardTime;
     }
 
     /**
-     * @param discardTime
+     * 设置销账日期
+     *
+     * @param discardTime 销账日期
      */
     public void setDiscardTime(Date discardTime) {
         this.discardTime = discardTime;
@@ -704,38 +780,30 @@ public class Equipment {
     }
 
     /**
-     * 获取货币种类
-     *
-     * @return currency_kind - 货币种类
+     * @return chejian
      */
-    public String getCurrencyKind() {
-        return currencyKind;
+    public String getChejian() {
+        return chejian;
     }
 
     /**
-     * 设置货币种类
-     *
-     * @param currencyKind 货币种类
+     * @param chejian
      */
-    public void setCurrencyKind(String currencyKind) {
-        this.currencyKind = currencyKind;
+    public void setChejian(String chejian) {
+        this.chejian = chejian;
     }
 
     /**
-     * 获取自定义
-     *
-     * @return other - 自定义
+     * @return chanxian
      */
-    public String getOther() {
-        return other;
+    public String getChanxian() {
+        return chanxian;
     }
 
     /**
-     * 设置自定义
-     *
-     * @param other 自定义
+     * @param chanxian
      */
-    public void setOther(String other) {
-        this.other = other;
+    public void setChanxian(String chanxian) {
+        this.chanxian = chanxian;
     }
 }

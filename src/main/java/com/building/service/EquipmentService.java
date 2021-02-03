@@ -28,17 +28,22 @@ public interface EquipmentService{
 
     /**
      * 按照条件搜索维修单
-     * @param param
-     * @param keyword
+     * @param
      * @return
      */
-    List<Equipment> searchEquipmentByWhere(String param, String keyword);
+    List<Equipment> searchEquipmentByWhere(Equipment equipment);
 
     /**
      * 获得工单总数量
      * @return
      */
     Integer getEquipmentCount();
+
+    /**
+     * 获得工单总数量
+     * @return
+     */
+    Integer getSearchCount(Equipment e);
 
     /**
      * 添加维修单

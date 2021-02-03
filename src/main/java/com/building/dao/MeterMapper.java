@@ -5,6 +5,7 @@ import com.building.entity.Meter;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface MeterMapper {
@@ -14,5 +15,8 @@ public interface MeterMapper {
 
     //根据id获取name
     public String getName(String id);
+
+    //获取所有仪表
+    public List<Meter> getAll(Map<String, Object> paramMap);
 
 }

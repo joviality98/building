@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.GroupMapper">
+
+    <resultMap type="com.building.entity.Group" id="Group">
+        <id property="id" column="id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="meterId" column="meter_id"/>
+    </resultMap>
+
+    <select id="To" resultMap="Group">
+        INSERT INTO group_meter (group_name, meter_id) VALUES(#{groupName}, #{meterId})
+    </select>
+
+</mapper>

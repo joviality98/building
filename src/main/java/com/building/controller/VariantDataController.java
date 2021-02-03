@@ -3,6 +3,7 @@ package com.building.controller;
 import com.building.common.lang.Result;
 import com.building.entity.VariantData;
 import com.building.service.VariantDataService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -28,6 +29,14 @@ public class VariantDataController {
         System.out.println(countTime);
         List<VariantData> list = variantDataService.findVariantData(variantId, countType, countTime);
         return Result.success(list);
+    }
+
+    @RequestMapping(value = "/variant/list",method = RequestMethod.GET)
+    public Result list(VariantData variantData) {
+
+        PageInfo<VariantData> pageInfo = variantDataService.selectAll(variantData);
+
+        return Result.success(pageInfo);
     }
 
     @InitBinder

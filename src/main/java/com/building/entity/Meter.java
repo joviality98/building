@@ -1,6 +1,8 @@
 package com.building.entity;
 
-public class Meter {
+import com.building.util.Page;
+
+public class Meter extends Page {
 
     private String id;
     private String meterId;

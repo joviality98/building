@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.building.dao.EquipmentMapper" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.building.dao.EquipmentMapper">
   <resultMap id="BaseResultMap" type="com.building.entity.Equipment">
     <!--
       WARNING - @mbg.generated
@@ -8,7 +8,7 @@
     <id column="equipment_id" jdbcType="CHAR" property="equipmentId" />
     <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
     <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="stock_time" jdbcType="TIMESTAMP" property="stockTime" />
@@ -36,11 +36,10 @@
     <result column="freq_count" jdbcType="DOUBLE" property="freqCount" />
     <result column="freq_unit" jdbcType="VARCHAR" property="freqUnit" />
     <result column="next_check_time" jdbcType="TIMESTAMP" property="nextCheckTime" />
-    <result column="currency_kind" jdbcType="VARCHAR" property="currencyKind" />
-    <result column="other" jdbcType="VARCHAR" property="other" />
+    <result column="chejian" jdbcType="VARCHAR" property="chejian" />
+    <result column="chanxian" jdbcType="VARCHAR" property="chanxian" />
   </resultMap>
-
-  <select id="getEquipmentCount" resultType="java.lang.Integer">
+  <select id="getTotal" resultType="java.lang.Integer">
     select count(equipment_id) from equipment
   </select>
 </mapper>

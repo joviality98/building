@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.AlarmEquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.building.entity.AlarmEquipment" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="equipment_id" property="equipmentId" jdbcType="CHAR" />
+    <result column="alarm_id" property="alarmId" jdbcType="CHAR" />
+  </resultMap>
+  <select id="getTotal" resultType="java.lang.Integer">
+    select count(id) from alarm_equipment
+  </select>
+</mapper>

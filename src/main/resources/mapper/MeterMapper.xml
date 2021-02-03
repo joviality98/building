@@ -17,8 +17,13 @@
     </select>
 
     <select id="getName" resultType="java.lang.String">
-        select name
+        select name AS label
         from meter where id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="Meter">
+        select id, name AS label
+        from meter
     </select>
 
 </mapper>

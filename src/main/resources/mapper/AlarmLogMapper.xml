@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.building.dao.AlarmLogMapper" >
+  <resultMap id="BaseResultMap" type="com.building.entity.AlarmLog" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="Source" property="source" jdbcType="VARCHAR" />
+    <result column="Severity" property="severity" jdbcType="INTEGER" />
+    <result column="Area" property="area" jdbcType="VARCHAR" />
+    <result column="ActiveTime" property="activetime" jdbcType="TIMESTAMP" />
+    <result column="EventTime" property="eventtime" jdbcType="TIMESTAMP" />
+    <result column="Message" property="message" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getTotal" resultType="java.lang.Integer">
+    select count(Source) from alarm_log
+  </select>
+</mapper>

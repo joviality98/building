@@ -8,6 +8,10 @@
         <result property="countValue" column="count_value"/>
         <result property="countTime" column="count_time"/>
         <result property="countType" column="count_type"/>
+        <result property="laTime" column="last_time"/>
+        <result property="lastValue" column="last_value"/>
+        <result property="thTime" column="this_time"/>
+        <result property="thisValue" column="this_value"/>
 
     </resultMap>
 
@@ -23,6 +27,10 @@
         FROM variant_data
         WHERE variant_id = #{variantId} AND DATE_FORMAT(count_time,'%Y-%m-%d')= DATE_FORMAT(#{countTime},'%Y-%m-%d') AND count_type=#{countType}
 
+    </select>
+
+    <select id="selectAll" resultMap="VariantData">
+        select * from variant_data
     </select>
 
 </mapper>

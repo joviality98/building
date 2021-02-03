@@ -2,7 +2,6 @@ package com.building.service.impl;
 
 import com.building.dao.UserMapper;
 import com.building.dao.WorkOrderMapper;
-import com.building.entity.User;
 import com.building.entity.WorkOrder;
 import com.building.entity.vo.CalcOrderVo;
 import com.building.entity.vo.TotalVo;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * <p>
@@ -132,23 +129,23 @@ public class WorkOrderServiceImpl implements WorkOrderService {
     @Override
     public void saveOrder(WorkOrder order) {
         orderMapper.insertSelective(order);
-        //测试定时器，30分钟后自动派单，改变工单状态
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    WorkOrder workOrder = orderMapper.selectByPrimaryKey(order);
-                    List<User> list = userMapper.searchStaff("1","1");
-                    if(workOrder.getWorkStatus() == 1){
-                        workOrder.setDealId(list.get(0).getUserId());
-                        workOrder.setWorkStatus(2);
-                        orderMapper.updateByPrimaryKeySelective(workOrder);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        },1800000);
+//        //测试定时器，30分钟后自动派单，改变工单状态
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                try {
+//                    WorkOrder workOrder = orderMapper.selectByPrimaryKey(order);
+//                    List<User> list = userMapper.searchStaff("1","1");
+//                    if(workOrder.getWorkStatus() == 1){
+//                        workOrder.setDealId(list.get(0).getUserId());
+//                        workOrder.setWorkStatus(2);
+//                        orderMapper.updateByPrimaryKeySelective(workOrder);
+//                    }
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        },1800000);
     }
 
     @Override
